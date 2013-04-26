@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import android.R;
 import android.R.color;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -18,6 +18,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class SquareView extends View {
@@ -40,7 +41,9 @@ public class SquareView extends View {
 	private static final int column = 7;
 
 	public static final int MSG_GAME_OVER = 1;
+	public static final int level = 5;			//level to setting how many kind of color to create
 	Handler handler;
+	Timer timer;
 
 	public SquareView(Context context) {
 		super(context);
@@ -75,13 +78,13 @@ public class SquareView extends View {
 			public void handleMessage(Message msg) {
 				switch (msg.what) {
 				case MSG_GAME_OVER:
-					// GAME OVER;
-					// new AlertDialog.Builder(SquareView.this.context)
-					// .setTitle("title Game Over")
-					// .setIcon(R.drawable.ic_launcher)
-					// .setMessage("得分")
-					// .setCancelable(false)
-					// .setView(new TextView(getContext())).show();
+					 //GAME OVER;
+					 new AlertDialog.Builder(SquareView.this.context)
+					 .setTitle("title Game Over")
+					 .setIcon(R.drawable.ic_launcher)
+					 .setMessage("得分")
+					 .setCancelable(false)
+					 .setView(new TextView(getContext())).show();
 					Log.d(TAG, "receive MSG Game Over Score:" + score);
 					break;
 
@@ -99,12 +102,13 @@ public class SquareView extends View {
 				postInvalidate();
 				if (countTime <= 0) {
 					handler.sendEmptyMessage(SquareView.MSG_GAME_OVER);
+					timer.cancel();
 					return;
 				}
 				countTime--;
 			}
 		};
-		Timer timer = new Timer();
+		timer = new Timer();
 		timer.schedule(timertask, 0, 1000);
 		
 		
@@ -382,7 +386,7 @@ public class SquareView extends View {
 			Square square = Squares.get(i);
 			if (square.GetX() >= minX2 && square.GetX() <= maxX2
 					&& square.GetY() >= minY2 && square.GetY() <= maxY2) {
-				int index = (int) (Math.random() * this.colors.size());
+				int index = (int) (Math.random() * this.level);
 				int color = colors.get(index);
 				square.SetColor(color);
 				score++;
@@ -431,7 +435,7 @@ public class SquareView extends View {
 	// 参数说明(每一行第一个点的x,y坐标，square变长，链表)
 	private void SetEachLine(int x, int y, int length) {
 		for (int i = 0; i < column; i++) {
-			int index = (int) (Math.random() * this.colors.size());
+			int index = (int) (Math.random() * this.level);
 			int color = colors.get(index);
 			Square s = new Square(x, y, color);
 			x += length;
@@ -471,8 +475,10 @@ public class SquareView extends View {
 	}
 
 	private void InitColors() {
-		this.colors.add(getResources().getColor(R.color.holo_blue_light));
-		this.colors.add(getResources().getColor(R.color.holo_green_light));
-		this.colors.add(getResources().getColor(R.color.holo_orange_light));
+		this.colors.add(getResources().getColor(R.color.blue_normal));
+		this.colors.add(getResources().getColor(R.color.green_normal));
+		this.colors.add(getResources().getColor(R.color.yellow_normal));
+		this.colors.add(getResources().getColor(R.color.purple_normal));
+		this.colors.add(getResources().getColor(R.color.red_normal));
 	}
 }
