@@ -27,6 +27,14 @@
             android:name="cn.blcu.destroysquare.GameActivity"
             android:label="@string/title_activity_game" >
         </activity>
+        <activity
+            android:name="cn.blcu.destroysquare.HelpActivity"
+            android:label="@string/title_activity_help" >
+        </activity>
+        <activity
+            android:name="cn.blcu.destroysquare.SettingsActivity"
+            android:label="@string/title_activity_settings" >
+        </activity>
     </application>
 
 </manifest>
