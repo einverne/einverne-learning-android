@@ -15,6 +15,9 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
+import android.media.AudioManager;
+import android.media.SoundPool;
+import android.media.SoundPool.OnLoadCompleteListener;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
@@ -25,10 +28,14 @@ import android.widget.Toast;
 
 public class SquareView extends View {
 
+
+	private SoundPool soundPool; 
+	
 	static Context context;
 	public static final int MSG_GAME_OVER = 1;
 	public static final int MSG_GAME_LEVEL_TWO = 2;
 	public static final int MSG_GAME_LEVEL_THREE = 3;
+
 	private List<Square> Squares;
 	private List<Square> SelectSquares;
 	int lengthOfSquare;// 保存每个小方格的边长
@@ -36,12 +43,12 @@ public class SquareView extends View {
 	private int score;
 	private int countTime = 10;
 	private String TAG = "EV_DEBUG";
-
+	private int sound; 
 	private int minX = 0;
 	private int maxX = 0;
 	private int minY = 0;
 	private int maxY = 0;
-
+	 boolean soundFlag=true;
 	private static final int line = 9;
 	private static final int column = 7;
 
@@ -84,9 +91,13 @@ public class SquareView extends View {
 		this.colors = new ArrayList<Integer>();
 		level = 3;
 		score = 0;
+
+		initSounds();
+
 		sharedPreferences = context.getSharedPreferences("High_Score",
 				Context.MODE_PRIVATE);
 		editor = sharedPreferences.edit();
+
 		handler = new Handler() {
 
 			@Override
@@ -360,7 +371,10 @@ public class SquareView extends View {
 			}
 			if (!selectedSquare.isSelected()) {
 				selectedSquare.setSelected(true);
-
+				if(soundFlag){
+				//play music
+				play(sound, 0);
+				}
 				int size = SelectSquares.size();
 				switch (size) {
 				case 0:
@@ -546,4 +560,31 @@ public class SquareView extends View {
 		this.colors.add(getResources().getColor(R.color.purple_normal));
 		this.colors.add(getResources().getColor(R.color.red_normal));
 	}
+	
+	public void initSounds() { 
+	       //初始化soundPool 对象,第一个参数是允许有多少个声音流同时播放,第2个参数是声音类型,第三个参数是声音的品质
+	      soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 100); 
+	       sound = soundPool.load(context, R.raw.yinx, 1);
+	     
+	      
+	  }
+	
+	 public void play( int sound,  int uLoop) { 
+		 AudioManager mgr = (AudioManager)context.getSystemService(Context.AUDIO_SERVICE);
+	        //返回当前AlarmManager最大音量
+	        float audioMaxVolume = mgr.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+	        //返回当前AudioManager对象的音量值
+	        float audioCurrentVolume = mgr.getStreamVolume(AudioManager.STREAM_MUSIC);
+	         float volumnRatio = audioMaxVolume;
+	            	 soundPool.play(
+	            			 sound,   
+	     		    		volumnRatio, //左声道音量
+	     	                volumnRatio, //右声道音量
+	     	                1, //优先级，0为最低
+	     	                uLoop, //循环次数，0无不循环，-1无永远循环
+	     	                1);//回放速度，值在0.5-2.0之间，1为正常速度
+	     
+		
+		   
+		  }
 }
