@@ -1,13 +1,11 @@
 package cn.blcu.destroysquare;
 
 
-import android.os.Bundle;
 import android.app.Activity;
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
+import android.os.Bundle;
 import android.view.KeyEvent;
-import android.view.Menu;
+import android.view.Window;
 
 public class GameActivity extends Activity {
 	private SoundPlayer playMusic;
@@ -16,23 +14,23 @@ public class GameActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		sharedPreferences = this.getSharedPreferences("flag",
-				Context.MODE_PRIVATE);
-		editor = sharedPreferences.edit();
-		if(sharedPreferences.getBoolean("bgflag", true)){
-			playMusic = new SoundPlayer(getApplicationContext());
-			playMusic.playBgSound(R.raw.chuyin);
-			}
+		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+		
+		playMusic = new SoundPlayer(getApplicationContext());
+		playMusic.playBgSound(R.raw.chuyin);
+		
 		SquareView myView=new SquareView(GameActivity.this);
 		setContentView(myView);
+		
+		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_bar);
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.game, menu);
-		return true;
-	}
+//	@Override
+//	public boolean onCreateOptionsMenu(Menu menu) {
+//		// Inflate the menu; this adds items to the action bar if it is present.
+//		getMenuInflater().inflate(R.menu.game, menu);
+//		return true;
+//	}
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {

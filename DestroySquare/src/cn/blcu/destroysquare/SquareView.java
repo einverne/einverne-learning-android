@@ -17,7 +17,6 @@ import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.media.AudioManager;
 import android.media.SoundPool;
-import android.media.SoundPool.OnLoadCompleteListener;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
@@ -41,7 +40,7 @@ public class SquareView extends View {
 	int lengthOfSquare;// 保存每个小方格的边长
 	private List<Integer> colors;
 	private int score;
-	private int countTime = 10;
+	private int countTime = 100;
 	private String TAG = "EV_DEBUG";
 	private int sound; 
 	private int minX = 0;
@@ -53,8 +52,8 @@ public class SquareView extends View {
 	private static final int column = 7;
 
 	public static int level = 3; // level to setting how many kind of
-	protected static final int SCORE_TWO_LEVEL = 10;
-	protected static final int SCORE_THREE_LEVEL = 100;
+	protected static final int SCORE_TWO_LEVEL = 500;
+	protected static final int SCORE_THREE_LEVEL = 1000;
 	boolean level_two = false;
 	boolean level_three = false;
 
@@ -64,6 +63,8 @@ public class SquareView extends View {
 	SharedPreferences.Editor editor_s;
 	Handler handler;
 	Timer timer;
+	private int Flag_Time = 0;
+	private int state = 0;
 
 	public SquareView(Context context) {
 		super(context);
@@ -176,20 +177,24 @@ public class SquareView extends View {
 			@Override
 			public void run() {
 				postInvalidate();
+				Log.d(TAG, "Score:"+score+" Time:"+countTime);
 				if (countTime <= 0) {
 					handler.sendEmptyMessage(SquareView.MSG_GAME_OVER);
 					timer.cancel();
+					Log.d(TAG, "Send MSG_Game_Over");
 					return;
 				}
 				countTime--;
 				if (score > SCORE_TWO_LEVEL && !level_two) {
 					handler.sendEmptyMessage(SquareView.MSG_GAME_LEVEL_TWO);
 					level_two = true;
+					Log.d(TAG, "Send MSG Game level Two");
 					return;
 				}
 				if (score > SCORE_THREE_LEVEL && !level_three) {
 					handler.sendEmptyMessage(SquareView.MSG_GAME_LEVEL_THREE);
 					level_three = true;
+					Log.d(TAG, "Send MSG Game level Three");
 					return;
 				}
 			}
@@ -213,11 +218,38 @@ public class SquareView extends View {
 		textPaint.setAlpha(200);
 		textPaint.setStyle(Style.FILL_AND_STROKE);
 		int y = this.getHeight() - this.line * this.lengthOfSquare;
-		// Log.d(TAG, "Y-"+y);
-		canvas.drawText("Score:" + Integer.toString(score), 20, y - 20,
-				textPaint);
+		if (this.countTime < 10) {
+			state++;
+			Paint timePaint = new Paint();
+			if (state % 2 == 0) {
+				timePaint.setColor(Color.YELLOW);
+			} else {
+				timePaint.setColor(Color.WHITE);
+			}
+			canvas.drawRect(this.getWidth() / 2, y - 70, this.getWidth(),
+					y - 10, timePaint);
+		}
 		canvas.drawText("Time:" + Integer.toString(countTime),
-				this.getWidth() / 2, y - 20, textPaint);
+				this.getWidth() / 2, y - 25, textPaint);
+		// /////////画time
+		if (this.Flag_Time == 1) {
+			textPaint.setColor(Color.RED);
+			this.Flag_Time = 0;
+		}
+
+		if (this.score > sharedPreferences.getInt("High_Score", 0)) {
+			textPaint.setTextSize((float) 20.0);
+			textPaint.setColor(Color.RED);
+			canvas.drawText("new highest", this.getWidth()/2 , 25, textPaint);
+		}
+		textPaint.setTextSize((float)60);
+		canvas.drawText("Score:" + Integer.toString(score), 20, y - 25,
+				textPaint);
+
+		//Draw level
+		textPaint.setTextSize(30);
+		canvas.drawText("LEVEL:"+(level-2)+" "+" colors:"+level, 30, 25, textPaint);
+		
 		if (Squares.size() == 0) {
 			initialize();
 		}
@@ -367,10 +399,20 @@ public class SquareView extends View {
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		if (event.getAction() == MotionEvent.ACTION_DOWN) {
-			Log.d(TAG,
-					"Event.getx:" + event.getX() + "Event.gety:" + event.getY());
+//			Log.d(TAG,
+//					"Event.getx:" + event.getX() + "Event.gety:" + event.getY());
 			Square selectedSquare = getWhichSelected(event.getX(), event.getY());
 			if (selectedSquare == null) {
+//				if(event.getX()>this.getWidth()-220 && event.getX()<this.getWidth()-180 && event.getY()>20 && event.getY()<60){
+//					if(this.refresh_time==0){
+//						Toast.makeText(this.context, "refresh已用完", Toast.LENGTH_SHORT).show();
+//					}
+//					else{
+//						this.refresh_time--;
+//						this.Squares.clear();
+//					}
+//					Log.d("refresh", String.valueOf(event.getX())+"y:"+String.valueOf(event.getY()));
+//					Log.d("sizeofsquares", String.valueOf(this.Squares.size()));
 				return false;
 			}
 			if (!selectedSquare.isSelected()) {
@@ -391,6 +433,7 @@ public class SquareView extends View {
 						// .show();
 					} else {
 						selectedSquare.setSelected(false);
+						countTime -= 2;
 						clearSelectSquares();
 						Toast.makeText(context, "请选择颜色一致的方块",
 								Toast.LENGTH_SHORT).show();
@@ -407,12 +450,14 @@ public class SquareView extends View {
 							// .show();
 						} else {
 							clearSelectSquares();
+							countTime -= 3;
 							Toast.makeText(context, "你选中的三个方块不能构成矩形",
 									Toast.LENGTH_SHORT).show();
 						}
 					} else {
 						selectedSquare.setSelected(false);
 						clearSelectSquares();
+						countTime -= 3;
 						Toast.makeText(context, "请选择颜色一致的方块",
 								Toast.LENGTH_SHORT).show();
 					}
@@ -425,10 +470,10 @@ public class SquareView extends View {
 						if (isRect_four(selectedSquare)) {
 							// 做一个函数，计算出需要消除的矩形的边界值
 							getBoundrayValue();
-							Log.d("minX", String.valueOf(minX));
-							Log.d("minY", String.valueOf(minY));
-							Log.d("maxX", String.valueOf(maxX));
-							Log.d("maxY", String.valueOf(maxY));
+//							Log.d("minX", String.valueOf(minX));
+//							Log.d("minY", String.valueOf(minY));
+//							Log.d("maxX", String.valueOf(maxX));
+//							Log.d("maxY", String.valueOf(maxY));
 
 							// Toast.makeText(context, "成功选中四个",
 							// Toast.LENGTH_SHORT)
@@ -440,7 +485,8 @@ public class SquareView extends View {
 							clearSelectSquares();
 						} else {
 							clearSelectSquares();
-							Toast.makeText(context, "失败选中四个",
+							countTime -= 4;
+							Toast.makeText(context, "所选方块不能构成矩形",
 									Toast.LENGTH_SHORT).show();
 						}
 
@@ -448,8 +494,8 @@ public class SquareView extends View {
 						selectedSquare.setSelected(false);// 颜色不一样，则取消该正方形被选中状态
 															// ,同时调用取消选中效果函数
 						clearSelectSquares();
-						Toast.makeText(context, "失败选中四个", Toast.LENGTH_SHORT)
-								.show();
+						Toast.makeText(context, "请选择颜色一致的方块",
+								Toast.LENGTH_SHORT).show();
 					}
 					break;
 				}
@@ -458,7 +504,7 @@ public class SquareView extends View {
 				SelectSquares.remove(selectedSquare);
 			}
 			Log.d("List size", "List size:" + SelectSquares.size());
-
+			Log.d(TAG, "OnTouchEvent:"+score);
 			invalidate();
 		}
 		return super.onTouchEvent(event);

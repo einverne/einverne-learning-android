@@ -10,13 +10,6 @@
     tools:context=".MainActivity" >
 
     <ImageButton
-        android:id="@+id/start"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@android:color/holo_blue_bright"
-        android:src="@drawable/ic_play" />
-
-    <ImageButton
         android:id="@+id/help"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -34,13 +27,24 @@
         android:background="@android:color/holo_purple"
         android:src="@drawable/ic_more" />
 
+    <ImageButton
+        android:id="@+id/start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="30dp"
+        android:background="@android:color/holo_blue_bright"
+        android:src="@drawable/ic_play" />
+
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/start"
-        android:layout_marginBottom="20dp"
-        android:layout_marginLeft="14dp"
+        android:layout_alignTop="@+id/start"
+        android:layout_marginLeft="13dp"
+        android:layout_marginTop="44dp"
         android:layout_toRightOf="@+id/start"
         android:text="Start Game"
         android:textSize="25sp"
@@ -51,9 +55,9 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/help"
         android:layout_alignLeft="@+id/textView1"
-        android:layout_marginBottom="25dp"
+        android:layout_alignTop="@+id/help"
+        android:layout_marginTop="47dp"
         android:text="How to Play"
         android:textSize="25sp"
         android:textStyle="bold|italic"
@@ -63,9 +67,9 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/setting"
         android:layout_alignLeft="@+id/textView2"
-        android:layout_marginBottom="38dp"
+        android:layout_alignTop="@+id/setting"
+        android:layout_marginTop="42dp"
         android:text="Setting"
         android:textSize="25sp"
         android:textStyle="bold|italic"
