@@ -48,7 +48,7 @@ public class SquareView extends View {
 	private int maxX = 0;
 	private int minY = 0;
 	private int maxY = 0;
-	 boolean soundFlag=true;
+	public boolean soundFlag=true;
 	private static final int line = 9;
 	private static final int column = 7;
 
@@ -60,6 +60,8 @@ public class SquareView extends View {
 
 	SharedPreferences sharedPreferences;
 	SharedPreferences.Editor editor;
+	SharedPreferences sharedPreferences_s;
+	SharedPreferences.Editor editor_s;
 	Handler handler;
 	Timer timer;
 
@@ -97,7 +99,9 @@ public class SquareView extends View {
 		sharedPreferences = context.getSharedPreferences("High_Score",
 				Context.MODE_PRIVATE);
 		editor = sharedPreferences.edit();
-
+		sharedPreferences_s = context.getSharedPreferences("flag",
+				Context.MODE_PRIVATE);
+		editor_s = sharedPreferences_s.edit();
 		handler = new Handler() {
 
 			@Override
@@ -371,7 +375,7 @@ public class SquareView extends View {
 			}
 			if (!selectedSquare.isSelected()) {
 				selectedSquare.setSelected(true);
-				if(soundFlag){
+				if(sharedPreferences_s.getBoolean("yxflag", true)){
 				//play music
 				play(sound, 0);
 				}
