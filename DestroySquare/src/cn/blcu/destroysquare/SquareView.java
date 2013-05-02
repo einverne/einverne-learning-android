@@ -8,6 +8,9 @@ import java.util.TimerTask;
 import android.R.color;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -18,18 +21,20 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class SquareView extends View {
 
-	private Context context;
+	static Context context;
+	public static final int MSG_GAME_OVER = 1;
+	public static final int MSG_GAME_LEVEL_TWO = 2;
+	public static final int MSG_GAME_LEVEL_THREE = 3;
 	private List<Square> Squares;
 	private List<Square> SelectSquares;
 	int lengthOfSquare;// 保存每个小方格的边长
 	private List<Integer> colors;
 	private int score;
-	private int countTime = 180;
+	private int countTime = 10;
 	private String TAG = "EV_DEBUG";
 
 	private int minX = 0;
@@ -40,8 +45,14 @@ public class SquareView extends View {
 	private static final int line = 9;
 	private static final int column = 7;
 
-	public static final int MSG_GAME_OVER = 1;
-	public static final int level = 5;			//level to setting how many kind of color to create
+	public static int level = 3; // level to setting how many kind of
+	protected static final int SCORE_TWO_LEVEL = 10;
+	protected static final int SCORE_THREE_LEVEL = 100;
+	boolean level_two = false;
+	boolean level_three = false;
+
+	SharedPreferences sharedPreferences;
+	SharedPreferences.Editor editor;
 	Handler handler;
 	Timer timer;
 
@@ -71,23 +82,74 @@ public class SquareView extends View {
 		this.Squares = new ArrayList<Square>();
 		this.SelectSquares = new ArrayList<Square>();
 		this.colors = new ArrayList<Integer>();
+		level = 3;
 		score = 0;
+		sharedPreferences = context.getSharedPreferences("High_Score",
+				Context.MODE_PRIVATE);
+		editor = sharedPreferences.edit();
 		handler = new Handler() {
 
 			@Override
 			public void handleMessage(Message msg) {
 				switch (msg.what) {
 				case MSG_GAME_OVER:
-					 //GAME OVER;
-					 new AlertDialog.Builder(SquareView.this.context)
-					 .setTitle("title Game Over")
-					 .setIcon(R.drawable.ic_launcher)
-					 .setMessage("得分")
-					 .setCancelable(false)
-					 .setView(new TextView(getContext())).show();
+					// GAME OVER;
+					int high_score = sharedPreferences.getInt("High_Score", 0);
+					Log.d(TAG, "High_Score:" + high_score + " score:" + score);
+					if (score > high_score) {
+						editor.putInt("High_Score", score);
+						editor.commit();
+					}
+					new AlertDialog.Builder(SquareView.this.context)
+							.setTitle("Game Over")
+							.setIcon(R.drawable.ic_launcher)
+							.setMessage(
+									"最高分:"
+											+ sharedPreferences.getInt(
+													"High_Score", 0) + "\n"
+											+ "本次得分:" + score)
+							.setPositiveButton("Try again",
+									new DialogInterface.OnClickListener() {
+
+										@Override
+										public void onClick(
+												DialogInterface dialog,
+												int which) {
+											GameActivity GA = (GameActivity) SquareView.context;
+											GA.finish();
+											Intent intent = new Intent(GA,
+													GameActivity.class);
+											GA.startActivity(intent);
+										}
+									})
+							.setNegativeButton("Close",
+									new DialogInterface.OnClickListener() {
+
+										@Override
+										public void onClick(
+												DialogInterface dialog,
+												int which) {
+											dialog.cancel();
+											GameActivity GA = (GameActivity) SquareView.context;
+											GA.finish();
+										}
+									}).setCancelable(false).show();
 					Log.d(TAG, "receive MSG Game Over Score:" + score);
 					break;
-
+				case MSG_GAME_LEVEL_TWO:
+					Toast.makeText(SquareView.context, "第二关",
+							Toast.LENGTH_SHORT).show();
+					level++;
+					countTime += 180;
+					Log.d(TAG, "level" + level + " counttime:" + countTime);
+					break;
+				case MSG_GAME_LEVEL_THREE:
+					Toast.makeText(SquareView.context, "第三关",
+							Toast.LENGTH_SHORT).show();
+					level++;
+					countTime += 180;
+					Log.d(TAG, "level" + level + " counttime:" + countTime);
+					break;
 				default:
 					break;
 				}
@@ -98,7 +160,6 @@ public class SquareView extends View {
 
 			@Override
 			public void run() {
-				// TODO Auto-generated method stub
 				postInvalidate();
 				if (countTime <= 0) {
 					handler.sendEmptyMessage(SquareView.MSG_GAME_OVER);
@@ -106,12 +167,20 @@ public class SquareView extends View {
 					return;
 				}
 				countTime--;
+				if (score > SCORE_TWO_LEVEL && !level_two) {
+					handler.sendEmptyMessage(SquareView.MSG_GAME_LEVEL_TWO);
+					level_two = true;
+					return;
+				}
+				if (score > SCORE_THREE_LEVEL && !level_three) {
+					handler.sendEmptyMessage(SquareView.MSG_GAME_LEVEL_THREE);
+					level_three = true;
+					return;
+				}
 			}
 		};
 		timer = new Timer();
 		timer.schedule(timertask, 0, 1000);
-		
-		
 
 	}
 
@@ -218,6 +287,7 @@ public class SquareView extends View {
 
 	/**
 	 * 处理被选中的正方形颜色是否一样的函数
+	 * 
 	 * @param selectedSquare
 	 * @return
 	 */
@@ -226,11 +296,7 @@ public class SquareView extends View {
 		int color1 = selectedSquare.GetColor();
 		int color2 = existedSquare.GetColor();
 		boolean b = isSameColor(color1, color2);
-		if (b == true) {
-			return true;
-		} else {
-			return false;
-		}
+		return b;
 	}
 
 	// 判断是否是在一个矩形里面
@@ -301,15 +367,15 @@ public class SquareView extends View {
 					SelectSquares.add(selectedSquare);
 					break;
 				case 1:// color是否相同
-
 					if (identifyColor(selectedSquare)) {
 						SelectSquares.add(selectedSquare);
 						// Toast.makeText(context, "成功选中两个", Toast.LENGTH_SHORT)
 						// .show();
 					} else {
+						selectedSquare.setSelected(false);
 						clearSelectSquares();
-						Toast.makeText(context, "失败选中两个", Toast.LENGTH_SHORT)
-								.show();
+						Toast.makeText(context, "请选择颜色一致的方块",
+								Toast.LENGTH_SHORT).show();
 					}
 					break;
 				case 2:
@@ -323,15 +389,14 @@ public class SquareView extends View {
 							// .show();
 						} else {
 							clearSelectSquares();
-							Toast.makeText(context, "失败选中三个",
+							Toast.makeText(context, "你选中的三个方块不能构成矩形",
 									Toast.LENGTH_SHORT).show();
 						}
-
 					} else {
 						selectedSquare.setSelected(false);
 						clearSelectSquares();
-						Toast.makeText(context, "失败选中三个", Toast.LENGTH_SHORT)
-								.show();
+						Toast.makeText(context, "请选择颜色一致的方块",
+								Toast.LENGTH_SHORT).show();
 					}
 					break;
 				case 3:
@@ -374,7 +439,7 @@ public class SquareView extends View {
 				selectedSquare.setSelected(false);
 				SelectSquares.remove(selectedSquare);
 			}
-			Log.d("List size", "size" + SelectSquares.size());
+			Log.d("List size", "List size:" + SelectSquares.size());
 
 			invalidate();
 		}
