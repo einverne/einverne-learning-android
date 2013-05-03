@@ -11,20 +11,45 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="70dp" >
+
+            <TextView
+                android:id="@+id/TextView01"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="背景音乐"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <CheckBox
+                android:id="@+id/CheckBox_bg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="70dp"
+                android:text="打开" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="50dp" >
 
             <TextView
                 android:id="@+id/textView1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Large Text"
+                android:text="游戏音效"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <CheckBox
-                android:id="@+id/checkBox1"
+                android:id="@+id/checkBox_yx"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="CheckBox" />
+                android:layout_marginLeft="70dp"
+                android:text="打开" />
 
         </LinearLayout>
 
