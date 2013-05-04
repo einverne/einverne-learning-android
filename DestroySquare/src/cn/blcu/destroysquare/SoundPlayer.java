@@ -14,11 +14,13 @@ public class SoundPlayer implements MediaPlayer.OnCompletionListener,
 	}
 
 	// 当音乐播放完毕时
+	@Override
 	public void onCompletion(MediaPlayer mp) {
 		stopBgSound();
 	}
 
 	// 当音乐播放发生错误时
+	@Override
 	public boolean onError(MediaPlayer mp, int what, int extra) {
 		stopBgSound();
 		return false;

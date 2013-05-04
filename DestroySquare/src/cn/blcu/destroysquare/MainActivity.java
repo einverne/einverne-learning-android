@@ -8,28 +8,12 @@ import android.widget.ImageButton;
 
 public class MainActivity extends Activity implements View.OnClickListener {
 
-	private static final int START = 0;
 	private static final int HELP = 1;
 	private static final int SETTING = 2;
-	ImageButton start;
+	private static final int START = 0;
 	ImageButton help;
 	ImageButton setting;
-
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
-
-		start = (ImageButton) findViewById(R.id.start);
-		start.setTag(START);
-		help = (ImageButton) findViewById(R.id.help);
-		help.setTag(HELP);
-		setting = (ImageButton) findViewById(R.id.setting);
-		setting.setTag(SETTING);
-		start.setOnClickListener(this);
-		help.setOnClickListener(this);
-		setting.setOnClickListener(this);
-	}
+	ImageButton start;
 
 	@Override
 	public void onClick(View v) {
@@ -59,6 +43,22 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		default:
 			break;
 		}
+	}
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
+
+		start = (ImageButton) findViewById(R.id.start);
+		start.setTag(START);
+		help = (ImageButton) findViewById(R.id.help);
+		help.setTag(HELP);
+		setting = (ImageButton) findViewById(R.id.setting);
+		setting.setTag(SETTING);
+		start.setOnClickListener(this);
+		help.setOnClickListener(this);
+		setting.setOnClickListener(this);
 	}
 
 	// @Override

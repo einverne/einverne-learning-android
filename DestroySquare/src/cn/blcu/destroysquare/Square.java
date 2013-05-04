@@ -7,15 +7,19 @@ package cn.blcu.destroysquare;
  * 
  */
 public class Square {
-	private int x, y;
 	private int color;
 	private boolean selected;
+	private int x, y;
 
 	public Square(int x, int y, int color) {
 		this.x = x;
 		this.y = y;
 		this.color = color;
 		this.selected = false;
+	}
+
+	public int GetColor() {
+		return this.color;
 	}
 
 	public int GetX() {
@@ -26,16 +30,12 @@ public class Square {
 		return this.y;
 	}
 
-	public void SetColor(int color) {
-		this.color = color;
-	}
-
-	public int GetColor() {
-		return this.color;
-	}
-
 	public boolean isSelected() {
 		return selected;
+	}
+
+	public void SetColor(int color) {
+		this.color = color;
 	}
 
 	public void setSelected(boolean selected) {
