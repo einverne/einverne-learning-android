@@ -26,7 +26,7 @@
         <activity
             android:name="cn.blcu.destroysquare.GameActivity"
             android:label="@string/title_activity_game"
-            android:theme="@android:style/Theme.Light" >
+            android:theme="@style/CustomTheme" >
         </activity>
         <activity
             android:name="cn.blcu.destroysquare.HelpActivity"
