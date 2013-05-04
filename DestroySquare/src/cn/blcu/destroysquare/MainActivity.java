@@ -1,5 +1,7 @@
 package cn.blcu.destroysquare;
 
+import com.google.analytics.tracking.android.EasyTracker;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -59,6 +61,18 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		start.setOnClickListener(this);
 		help.setOnClickListener(this);
 		setting.setOnClickListener(this);
+	}
+
+	@Override
+	protected void onStart() {
+		EasyTracker.getInstance().activityStart(this);
+		super.onStart();
+	}
+
+	@Override
+	protected void onStop() {
+		EasyTracker.getInstance().activityStop(this);
+		super.onStop();
 	}
 
 	// @Override
