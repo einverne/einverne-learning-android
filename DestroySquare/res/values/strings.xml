@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">方块消除</string>
-    <string name="action_settings">Settings</string>
+    <string name="app_name">四方消除</string>
+    <string name="action_settings">设置</string>
     <string name="hello_world">Hello world!</string>
-    <string name="title_activity_game">GameActivity</string>
-    <string name="title_activity_help">HelpActivity</string>
+    <string name="title_activity_game">四方消除</string>
+    <string name="title_activity_help">帮助</string>
     <string name="pause">暂停</string>
     <string name="refresh">置换</string>
 
