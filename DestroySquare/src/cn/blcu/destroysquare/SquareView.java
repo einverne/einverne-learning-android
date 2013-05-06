@@ -21,6 +21,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
@@ -475,13 +476,13 @@ public class SquareView extends View {
 			if (Squares.get(i).isSelected()) {
 				paint.setStyle(Style.FILL);// 画实心矩形用颜色填充
 				paint.setColor(color);
-				canvas.drawRect(left + 6, top + 6, right - 6, bottom - 6, paint);
+				canvas.drawRect(left -1, top -1, right +1, bottom +1, paint);
 				// 画打叉
 				paint.setColor(Color.WHITE);
 				paint.setStrokeWidth(2);
 				canvas.drawLine(right - 3, top + 3, left + 3, bottom - 3, paint);// 画线
 				canvas.drawLine(left + 3, top + 3, right - 3, bottom - 3, paint);// 斜线
-
+				canvas.drawRect(left + 9, top + 9, right - 9, bottom - 9, paint);
 			}
 
 		}
@@ -683,4 +684,7 @@ public class SquareView extends View {
 			Squares.add(s);
 		}
 	}
+
+	
+	
 }
