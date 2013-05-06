@@ -70,7 +70,7 @@ public class SquareView extends View {
 	private String TAG = "EV_DEBUG";
 	Timer timer;
 	TimerTask timertask;
-	private SoundPlayer playMusic;
+	public SoundPlayer playMusic;
 	
 	
 	public SquareView(Context context) {
@@ -732,17 +732,7 @@ public class SquareView extends View {
 		}
 	}
 
-	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		// TODO Auto-generated method stub
-		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			if (playMusic != null) {
-				Log.d("ddddd","out");
-				playMusic.stopBgSound();
-			}
-		}
-		return super.onKeyDown(keyCode, event);
-	}
+
 
 	
 	
