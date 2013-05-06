@@ -200,11 +200,11 @@ public class HelpActivity extends Activity implements OnScrollListener {
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub
-		
+		finish();
 		if( keyCode == KeyEvent.KEYCODE_BACK){
 			
 			this.overridePendingTransition(R.anim.in_from_left,
-					R.anim.in_from_right);
+					R.anim.out_to_right);
 		}
 		return super.onKeyDown(keyCode, event);
 		
