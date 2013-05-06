@@ -1,6 +1,7 @@
 package cn.blcu.destroysquare;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -62,12 +63,16 @@ public class SquareView extends View {
 	private int sound;
 	public boolean soundFlag = true;
 	private SoundPool soundPool;
+	private HashMap<Integer, Integer> soundMap = new HashMap<Integer, Integer>();
+
 	private List<Square> Squares;
 	private int state = 0;
 	private String TAG = "EV_DEBUG";
 	Timer timer;
 	TimerTask timertask;
-
+	private SoundPlayer playMusic;
+	
+	
 	public SquareView(Context context) {
 		super(context);
 		iniSquareView(context);
@@ -212,12 +217,13 @@ public class SquareView extends View {
 		score = 0;
 
 		initSounds();
-
+		
 		sharedPreferences = context.getSharedPreferences("High_Score",
 				Context.MODE_PRIVATE);
 		editor = sharedPreferences.edit();
 		sharedPreferences_s = context.getSharedPreferences("flag",
 				Context.MODE_PRIVATE);
+		initBgSounds();
 		handler = new Handler() {
 
 			@Override
@@ -288,12 +294,25 @@ public class SquareView extends View {
 		InitColors();
 		InitSquareLength();
 		InitSquares();
+		
 	}
+	
+	public void initBgSounds() {
+		//Log.d("hhhhhhhh",sharedPreferences_s.getAll()+"");
+		if (sharedPreferences_s.getBoolean("bgflag", false)) {
+			playMusic = new SoundPlayer(context);
+			playMusic.playBgSound(R.raw.chuyin);
+		}
 
+		
+	}
 	public void initSounds() {
 		// 初始化soundPool 对象,第一个参数是允许有多少个声音流同时播放,第2个参数是声音类型,第三个参数是声音的品质
 		soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 100);
-		sound = soundPool.load(context, R.raw.yinx, 1);
+		soundMap.put(1 , soundPool.load(context, R.raw.yinx , 1));
+		soundMap.put(2 , soundPool.load(context, R.raw.end , 1));
+
+		//sound = soundPool.load(context, R.raw.yinx, 1);
 
 	}
 
@@ -516,7 +535,7 @@ public class SquareView extends View {
 				selectedSquare.setSelected(true);
 				if (sharedPreferences_s.getBoolean("yxflag", true)) {
 					// play music
-					play(sound, 0);
+					play(soundMap.get(1), 0);
 				}
 				int size = SelectSquares.size();
 				switch (size) {
@@ -576,6 +595,10 @@ public class SquareView extends View {
 							// Toast.LENGTH_SHORT)
 							// .show();
 							// 添加一个函数消除整个区域的正方形，并且重新填充，计算得分等等
+							if (sharedPreferences_s.getBoolean("yxflag", true)) {
+								// play music
+								play(soundMap.get(2), 0);
+							}
 							resetSquares(minX, minY, maxX, maxY);
 
 							// 最后再清空链表
@@ -609,6 +632,10 @@ public class SquareView extends View {
 
 	public void pause() {
 		isTimerStop = true;
+		if (playMusic != null) {
+			playMusic.pauseBgSound();
+		}
+		
 		new AlertDialog.Builder(context)
 				.setIcon(R.drawable.ic_launcher)
 				.setTitle("Game Pause")
@@ -621,6 +648,10 @@ public class SquareView extends View {
 							public void onClick(DialogInterface dialog,
 									int which) {
 								isTimerStop = false;
+								if (playMusic != null) {
+									playMusic.startAgainBgSound();
+								}
+								
 							}
 						})
 				.setNegativeButton("Close",
@@ -629,6 +660,9 @@ public class SquareView extends View {
 							@Override
 							public void onClick(DialogInterface dialog,
 									int which) {
+								if (playMusic != null) {
+									playMusic.stopBgSound();
+								}
 								dialog.cancel();
 								GameActivity GA = (GameActivity) context;
 								GA.finish();
@@ -655,6 +689,10 @@ public class SquareView extends View {
 	}
 
 	public void refresh() {
+		if (sharedPreferences_s.getBoolean("yxflag", true)) {
+			// play music
+			play(soundMap.get(2), 0);
+		}
 		Squares.clear();
 		InitSquares();
 		invalidate();
@@ -683,6 +721,18 @@ public class SquareView extends View {
 			x += length;
 			Squares.add(s);
 		}
+	}
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		// TODO Auto-generated method stub
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			if (playMusic != null) {
+				Log.d("ddddd","out");
+				playMusic.stopBgSound();
+			}
+		}
+		return super.onKeyDown(keyCode, event);
 	}
 
 	
