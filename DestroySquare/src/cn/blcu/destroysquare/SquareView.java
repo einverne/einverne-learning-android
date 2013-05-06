@@ -308,7 +308,7 @@ public class SquareView extends View {
 	
 	public void initBgSounds() {
 		//Log.d("hhhhhhhh",sharedPreferences_s.getAll()+"");
-		if (sharedPreferences_s.getBoolean("bgflag", false)) {
+		if (sharedPreferences_s.getBoolean("bgflag", true)) {
 			playMusic = new SoundPlayer(context);
 			playMusic.playBgSound(R.raw.chuyin);
 		}
@@ -444,7 +444,7 @@ public class SquareView extends View {
 	@Override
 	public void onDraw(Canvas canvas) {
 		Paint textPaint = new Paint();
-		textPaint.setTextSize((float) 60.0);
+		textPaint.setTextSize((float) 40.0);
 		textPaint.setColor(color.holo_blue_light);
 		textPaint.setAlpha(200);
 		textPaint.setStyle(Style.FILL_AND_STROKE);
@@ -461,7 +461,7 @@ public class SquareView extends View {
 					y - 10, timePaint);
 		}
 		canvas.drawText("Time:" + Integer.toString(countTime),
-				this.getWidth() / 2, y - 25, textPaint);
+				this.getWidth() / 2+10, y - 15, textPaint);
 		// /////////»­time
 		if (this.Flag_Time == 1) {
 			textPaint.setColor(Color.RED);
@@ -469,18 +469,18 @@ public class SquareView extends View {
 		}
 
 		if (this.score > sharedPreferences.getInt("High_Score", 0)) {
-			textPaint.setTextSize((float) 20.0);
+			textPaint.setTextSize((float) 22.0);
 			textPaint.setColor(Color.RED);
-			canvas.drawText("new highest", this.getWidth() / 2, 25, textPaint);
+			canvas.drawText("new highest", this.getWidth() / 2, 20, textPaint);
 		}
-		textPaint.setTextSize(60);
-		canvas.drawText("Score:" + Integer.toString(score), 20, y - 25,
+		textPaint.setTextSize(40);
+		canvas.drawText("Score:" + Integer.toString(score), 20, y - 15,
 				textPaint);
 
 		// Draw level
-		textPaint.setTextSize(30);
+		textPaint.setTextSize(25);
 		canvas.drawText("LEVEL:" + (level - 2) + " " + " colors:" + level, 30,
-				25, textPaint);
+				22, textPaint);
 
 		if (Squares.size() == 0) {
 			initialize();
@@ -510,7 +510,7 @@ public class SquareView extends View {
 				paint.setStrokeWidth(2);
 				canvas.drawLine(right - 3, top + 3, left + 3, bottom - 3, paint);// »­Ïß
 				canvas.drawLine(left + 3, top + 3, right - 3, bottom - 3, paint);// Ð±Ïß
-				canvas.drawRect(left + 9, top + 9, right - 9, bottom - 9, paint);
+				canvas.drawCircle((right-left)/2, (bottom-top)/2, 2, paint);
 			}
 
 		}
