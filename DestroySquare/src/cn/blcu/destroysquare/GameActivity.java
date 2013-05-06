@@ -64,12 +64,12 @@ public class GameActivity extends Activity {
 		 * 增加中间过渡特效
 		 */
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			// if(sharedPreferences.getBoolean("bgflag", true)){
-			// playMusic.stopBgSound();
-			// }
-//			if (playMusic != null) {
-//				playMusic.stopBgSound();
-//			}
+//			 if(sharedPreferences.getBoolean("bgflag", true)){
+//			 playMusic.stopBgSound();
+//			 }
+			if (myView.playMusic != null) {
+				myView.playMusic.stopBgSound();
+			}
 			myView.timer.cancel();
 			myView.timertask.cancel();
 			finish();
