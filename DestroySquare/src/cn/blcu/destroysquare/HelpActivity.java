@@ -30,8 +30,8 @@ public class HelpActivity extends Activity implements OnScrollListener {
 	private ImageView cursor;// 锟斤拷锟斤拷图片
 	private TextView t1, t2, t3;// 页锟斤拷头锟斤拷
 	private int offset = 0;// 锟斤拷锟斤拷图片偏锟斤拷
-	private int currIndex = 0;// 锟斤拷前页锟斤拷锟斤拷锟�
-	private int bmpW;// 锟斤拷锟斤拷图片锟斤拷锟�
+	private int currIndex = 0;// 锟斤拷前页锟斤拷锟斤拷锟ￄ1�7
+	private int bmpW;// 锟斤拷锟斤拷图片锟斤拷锟ￄ1�7
 
 	private void InitTextView() {
 		t1 = (TextView) findViewById(R.id.text1);
@@ -71,7 +71,7 @@ public class HelpActivity extends Activity implements OnScrollListener {
 	}
 
 	/**
-     * ViewPager锟斤拷锟斤拷锟斤拷
+     * ViewPager锟斤拷锟斤拷锟斤拄1�7
 */
     public class MyPagerAdapter extends PagerAdapter {
         public List<View> mListViews;
@@ -120,12 +120,12 @@ public class HelpActivity extends Activity implements OnScrollListener {
     }
 
     /**
-     * 锟斤拷始锟斤拷锟斤拷锟斤拷
+     * 锟斤拷始锟斤拷锟斤拷锟斤拄1�7
 */
     private void InitImageView() {
         cursor = (ImageView) findViewById(R.id.cursor);
-        bmpW = BitmapFactory.decodeResource(getResources(), R.drawable.a)
-                .getWidth();// 锟斤拷取图片锟斤拷锟�
+        bmpW = BitmapFactory.decodeResource(getResources(), R.drawable.a1)
+                .getWidth();// 锟斤拷取图片锟斤拷锟ￄ1�7
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         int screenW = dm.widthPixels;// 锟斤拷取锟街憋拷锟绞匡拷锟�
