@@ -17,7 +17,7 @@
         android:layout_alignLeft="@+id/start"
         android:layout_below="@+id/start"
         android:layout_marginTop="20dp"
-        android:background="@android:color/holo_red_light"
+        android:background="@color/white"
         android:src="@drawable/ic_tutorial" />
 
     <ImageButton
@@ -28,7 +28,7 @@
         android:layout_alignRight="@+id/help"
         android:layout_below="@+id/help"
         android:layout_marginTop="20dp"
-        android:background="@android:color/holo_purple"
+        android:background="@color/white"
         android:src="@drawable/ic_more" />
 
     <ImageButton
@@ -39,7 +39,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="30dp"
         android:layout_marginTop="30dp"
-        android:background="@android:color/holo_blue_bright"
+        android:background="@color/white"
         android:src="@drawable/ic_play" />
 
     <TextView
@@ -51,7 +51,7 @@
         android:layout_marginTop="44dp"
         android:layout_toRightOf="@+id/start"
         android:text="Start Game"
-        android:textSize="25sp"
+        android:textSize="23dp"
         android:textStyle="bold"
         android:typeface="sans" />
 
@@ -63,7 +63,7 @@
         android:layout_alignTop="@+id/help"
         android:layout_marginTop="47dp"
         android:text="How to Play"
-        android:textSize="25sp"
+        android:textSize="23dp"
         android:textStyle="bold"
         android:typeface="normal" />
 
@@ -75,7 +75,7 @@
         android:layout_alignTop="@+id/setting"
         android:layout_marginTop="42dp"
         android:text="Setting"
-        android:textSize="25sp"
+        android:textSize="23dp"
         android:textStyle="bold"
         android:typeface="normal" />
 
