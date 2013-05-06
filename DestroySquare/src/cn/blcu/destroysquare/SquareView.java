@@ -75,17 +75,23 @@ public class SquareView extends View {
 	
 	public SquareView(Context context) {
 		super(context);
+		 /**ÉèÖÃ¿ØÖÆ½¹µã **/
+		 setFocusable(true);
 		iniSquareView(context);
 	}
 
 	public SquareView(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		 setFocusable(true);
 		iniSquareView(context);
+		
 	}
 
 	public SquareView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
+		setFocusable(true);
 		iniSquareView(context);
+		 
 	}
 
 	/**
@@ -99,6 +105,9 @@ public class SquareView extends View {
 	}
 
 	protected void gameover() {
+		if (playMusic != null) {
+			playMusic.stopBgSound();
+		}
 		int high_score = sharedPreferences.getInt("High_Score", 0);
 		Log.d(TAG, "High_Score:" + high_score + " score:" + score);
 		if (score > high_score) {
