@@ -4,9 +4,14 @@ import com.google.analytics.tracking.android.EasyTracker;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewTreeObserver.OnPreDrawListener;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 public class MainActivity extends Activity implements View.OnClickListener {
 
@@ -17,6 +22,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
 	ImageButton setting;
 	ImageButton start;
 
+	
+
 	@Override
 	public void onClick(View v) {
 		int tag = (Integer) v.getTag();
@@ -25,22 +32,24 @@ public class MainActivity extends Activity implements View.OnClickListener {
 			Intent intent = new Intent();
 			intent.setClass(MainActivity.this, GameActivity.class);
 			startActivity(intent);
-			MainActivity.this.overridePendingTransition(R.anim.in_from_right,
-					R.anim.out_to_left);// 参数:读取res中的XML文件实现效果
+			MainActivity.this.overridePendingTransition(R.anim.rotate_in,
+					R.anim.rotate_out);// 参数:读取res中的XML文件实现效果
+			//摇摆  
+			
 			break;
 		case HELP:
 			Intent intent_2 = new Intent();
 			intent_2.setClass(MainActivity.this, HelpActivity.class);
 			startActivity(intent_2);
-			MainActivity.this.overridePendingTransition(R.anim.in_from_right,
-					R.anim.out_to_left);// 参数:读取res中的XML文件实现效果
+			MainActivity.this.overridePendingTransition(R.anim.rotate_in,
+					R.anim.rotate_out);;// 参数:读取res中的XML文件实现效果
 			break;
 		case SETTING:
 			Intent intent_3 = new Intent();
 			intent_3.setClass(MainActivity.this, SettingsActivity.class);
 			startActivity(intent_3);
-			MainActivity.this.overridePendingTransition(R.anim.in_from_right,
-					R.anim.out_to_left);// 参数:读取res中的XML文件实现效果
+			MainActivity.this.overridePendingTransition(R.anim.rotate_in,
+					R.anim.rotate_out);// 参数:读取res中的XML文件实现效果
 			break;
 		default:
 			break;
@@ -61,8 +70,12 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		start.setOnClickListener(this);
 		help.setOnClickListener(this);
 		setting.setOnClickListener(this);
+		
+	
 	}
 
+	
+	
 	@Override
 	protected void onStart() {
 		EasyTracker.getInstance().activityStart(this);
