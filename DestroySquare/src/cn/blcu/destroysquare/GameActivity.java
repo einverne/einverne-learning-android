@@ -13,7 +13,7 @@ import android.widget.Button;
 public class GameActivity extends Activity {
 	SharedPreferences.Editor editor;
 	SquareView myView;
-	private SoundPlayer playMusic;
+	//private SoundPlayer playMusic;
 	Button refresh;
 	int refreshChance = 2;
 	SharedPreferences sharedPreferences;
@@ -30,10 +30,10 @@ public class GameActivity extends Activity {
 				R.layout.title_bar);
 		sharedPreferences = this.getSharedPreferences("flag",
 				Context.MODE_PRIVATE);
-		if (sharedPreferences.getBoolean("bgflag", true)) {
-			playMusic = new SoundPlayer(this);
-			playMusic.playBgSound(R.raw.chuyin);
-		}
+//		if (sharedPreferences.getBoolean("bgflag", true)) {
+//			playMusic = new SoundPlayer(this);
+//			playMusic.playBgSound(R.raw.chuyin);
+//		}
 
 		findViewById(R.id.button_pause).setOnClickListener(
 				new OnClickListener() {
@@ -41,6 +41,7 @@ public class GameActivity extends Activity {
 					@Override
 					public void onClick(View v) {
 						myView.pause();
+					//	playMusic.stopBgSound();
 					}
 				});
 		refresh = (Button) findViewById(R.id.button_refresh);
@@ -66,9 +67,9 @@ public class GameActivity extends Activity {
 			// if(sharedPreferences.getBoolean("bgflag", true)){
 			// playMusic.stopBgSound();
 			// }
-			if (playMusic != null) {
-				playMusic.stopBgSound();
-			}
+//			if (playMusic != null) {
+//				playMusic.stopBgSound();
+//			}
 			myView.timer.cancel();
 			myView.timertask.cancel();
 			finish();
