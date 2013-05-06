@@ -3,7 +3,7 @@
     android:id="@+id/RelativeLayout1"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="2dp"
+    android:layout_margin="4dp"
     android:gravity="center_vertical"
     android:orientation="horizontal" >
 
@@ -17,18 +17,21 @@
 
     <Button
         android:id="@+id/button_refresh"
-        android:layout_width="wrap_content"
+        android:layout_width="48dp"
         android:layout_height="48dp"
+        android:background="@color/blue_cb_normal"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:text="@string/refresh" />
 
     <Button
         android:id="@+id/button_pause"
-        android:layout_width="wrap_content"
+        android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_alignParentTop="true"
+        android:layout_marginRight="3dp"
         android:layout_toLeftOf="@+id/button_refresh"
+        android:background="@color/green_cb_normal"
         android:text="@string/pause" />
 
     <TextView
