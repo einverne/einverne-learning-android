@@ -62,16 +62,19 @@ public class SettingsActivity extends Activity {
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub
-		
+		finish();
 		if(keyCode == event.KEYCODE_BACK){
 			
-			SettingsActivity.this.overridePendingTransition(R.anim.in_from_right,
-					R.anim.in_from_left);
+			SettingsActivity.this.overridePendingTransition(R.anim.in_from_left,
+					R.anim.out_to_right);
 		}
 		return super.onKeyDown(keyCode, event);
 		
 		
 	}
+
+	
+	
 	
 
 }
