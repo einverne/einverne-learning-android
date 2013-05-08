@@ -22,13 +22,15 @@ public class SettingsActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_setting);
 		CheckBox bg = (CheckBox) this.findViewById(R.id.CheckBox_bg);
-		CheckBox yx = (CheckBox) this.findViewById(R.id.checkBox_yx);
+		CheckBox yx = (CheckBox) this.findViewById(R.id.CheckBox_yx);
+		CheckBox xz = (CheckBox) this.findViewById(R.id.checkBox_xz);
 		sharedPreferences = this.getSharedPreferences("flag",
 				Context.MODE_PRIVATE);
 		editor = sharedPreferences.edit();
 		bg.setChecked(sharedPreferences.getBoolean("bgflag", true));
 		yx.setChecked(sharedPreferences.getBoolean("yxflag", true));
-
+		xz.setChecked(sharedPreferences.getBoolean("xzflag", false));
+		
 		bg.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
 			@Override
@@ -47,6 +49,17 @@ public class SettingsActivity extends Activity {
 					boolean isChecked) {
 				// TODO Auto-generated method stub
 				editor.putBoolean("yxflag", isChecked);
+				editor.commit();
+			}
+		});
+		
+		xz.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView,
+					boolean isChecked) {
+				// TODO Auto-generated method stub
+				editor.putBoolean("xzflag", isChecked);
 				editor.commit();
 			}
 		});
