@@ -224,7 +224,7 @@ public class SquareView extends View {
 		this.colors = new ArrayList<Integer>();
 		level = 3;
 		score = 0;
-
+	
 		initSounds();
 		
 		sharedPreferences = context.getSharedPreferences("High_Score",
@@ -292,11 +292,20 @@ public class SquareView extends View {
 	}
 
 	private void InitColors() {
-		this.colors.add(getResources().getColor(R.color.blue_normal));
-		this.colors.add(getResources().getColor(R.color.green_normal));
-		this.colors.add(getResources().getColor(R.color.yellow_normal));
-		this.colors.add(getResources().getColor(R.color.purple_normal));
-		this.colors.add(getResources().getColor(R.color.red_normal));
+		if (sharedPreferences_s.getBoolean("xzflag", false)) {
+			this.colors.add(getResources().getColor(R.color.blue_hc));
+			this.colors.add(getResources().getColor(R.color.green_hc));
+			this.colors.add(getResources().getColor(R.color.yellow_hc));
+			this.colors.add(getResources().getColor(R.color.purple_hc));
+			this.colors.add(getResources().getColor(R.color.red_hc));
+		}
+		else{
+			this.colors.add(getResources().getColor(R.color.blue_normal));
+			this.colors.add(getResources().getColor(R.color.green_normal));
+			this.colors.add(getResources().getColor(R.color.yellow_normal));
+			this.colors.add(getResources().getColor(R.color.purple_normal));
+			this.colors.add(getResources().getColor(R.color.red_normal));
+		}
 	}
 
 	public void initialize() {
@@ -484,6 +493,7 @@ public class SquareView extends View {
 
 		if (Squares.size() == 0) {
 			initialize();
+			Log.d("ccccccc",colors.toString());
 		}
 		for (int i = 0; i < Squares.size(); i++) {
 
