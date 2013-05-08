@@ -28,14 +28,17 @@
         <activity
             android:name="cn.blcu.destroysquare.GameActivity"
             android:label="@string/title_activity_game"
+             android:screenOrientation="portrait"
             android:theme="@style/CustomTheme" >
         </activity>
         <activity
             android:name="cn.blcu.destroysquare.HelpActivity"
+             android:screenOrientation="portrait"
             android:label="@string/title_activity_help" >
         </activity>
         <activity
             android:name="cn.blcu.destroysquare.SettingsActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_settings" >
         </activity>
     </application>
