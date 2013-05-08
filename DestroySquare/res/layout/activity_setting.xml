@@ -13,6 +13,27 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
+            android:layout_marginTop="50dp" >
+
+            <TextView
+                android:id="@+id/TextView02"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="游戏音效"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <CheckBox
+                android:id="@+id/CheckBox_yx"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="70dp"
+                android:text="打开" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
             android:layout_marginTop="70dp" >
 
             <TextView
@@ -35,21 +56,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
-            android:layout_marginTop="50dp" >
+            android:layout_marginTop="70dp" >
 
             <TextView
                 android:id="@+id/textView1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="游戏音效"
+                android:text="色盲主题"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <CheckBox
-                android:id="@+id/checkBox_yx"
+                android:id="@+id/checkBox_xz"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="70dp"
-                android:text="打开" />
+                android:text="选择" />
 
         </LinearLayout>
 
