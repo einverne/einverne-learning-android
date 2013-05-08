@@ -63,6 +63,12 @@ public class GameActivity extends Activity {
 		/**
 		 * 增加中间过渡特效
 		 */
+		if(keyCode==KeyEvent.KEYCODE_HOME){
+			if (myView.playMusic != null) {
+				myView.playMusic.pauseBgSound();
+			}
+		myView.pause();
+		}
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 //			 if(sharedPreferences.getBoolean("bgflag", true)){
 //			 playMusic.stopBgSound();
