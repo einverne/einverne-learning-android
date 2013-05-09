@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -13,7 +14,7 @@ import android.widget.Button;
 public class GameActivity extends Activity {
 	SharedPreferences.Editor editor;
 	SquareView myView;
-	//private SoundPlayer playMusic;
+	// private SoundPlayer playMusic;
 	Button refresh;
 	int refreshChance = 2;
 	SharedPreferences sharedPreferences;
@@ -30,10 +31,10 @@ public class GameActivity extends Activity {
 				R.layout.title_bar);
 		sharedPreferences = this.getSharedPreferences("flag",
 				Context.MODE_PRIVATE);
-//		if (sharedPreferences.getBoolean("bgflag", true)) {
-//			playMusic = new SoundPlayer(this);
-//			playMusic.playBgSound(R.raw.chuyin);
-//		}
+		// if (sharedPreferences.getBoolean("bgflag", true)) {
+		// playMusic = new SoundPlayer(this);
+		// playMusic.playBgSound(R.raw.chuyin);
+		// }
 
 		findViewById(R.id.button_pause).setOnClickListener(
 				new OnClickListener() {
@@ -41,7 +42,7 @@ public class GameActivity extends Activity {
 					@Override
 					public void onClick(View v) {
 						myView.pause();
-					//	playMusic.stopBgSound();
+						// playMusic.stopBgSound();
 					}
 				});
 		refresh = (Button) findViewById(R.id.button_refresh);
@@ -63,16 +64,16 @@ public class GameActivity extends Activity {
 		/**
 		 * 增加中间过渡特效
 		 */
-		if(keyCode==KeyEvent.KEYCODE_HOME){
+		if (keyCode == KeyEvent.KEYCODE_HOME) {
 			if (myView.playMusic != null) {
 				myView.playMusic.pauseBgSound();
 			}
-		myView.pause();
+			myView.pause();
 		}
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-//			 if(sharedPreferences.getBoolean("bgflag", true)){
-//			 playMusic.stopBgSound();
-//			 }
+			// if(sharedPreferences.getBoolean("bgflag", true)){
+			// playMusic.stopBgSound();
+			// }
 			if (myView.playMusic != null) {
 				myView.playMusic.stopBgSound();
 			}
@@ -85,12 +86,12 @@ public class GameActivity extends Activity {
 		return super.onKeyDown(keyCode, event);
 	}
 
-	// @Override
-	// public boolean onCreateOptionsMenu(Menu menu) {
-	// // Inflate the menu; this adds items to the action bar if it is present.
-	// getMenuInflater().inflate(R.menu.game, menu);
-	// return true;
-	// }
+//	@Override
+//	public boolean onCreateOptionsMenu(Menu menu) {
+//		// Inflate the menu; this adds items to the action bar if it is present.
+//		getMenuInflater().inflate(R.menu.game, menu);
+//		return true;
+//	}
 
 	protected void setRefreshChance() {
 		refresh.setText(refreshChance + "置换");
