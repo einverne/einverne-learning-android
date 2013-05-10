@@ -4,20 +4,29 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
-import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.GoogleAnalytics;
+import com.google.analytics.tracking.android.Tracker;
+
 public class GameActivity extends Activity {
+	private static final String TAG = "EV_DEBUG";
 	SharedPreferences.Editor editor;
 	SquareView myView;
 	// private SoundPlayer playMusic;
 	Button refresh;
 	int refreshChance = 2;
 	SharedPreferences sharedPreferences;
+	private Tracker mGaTracker;
+	private GoogleAnalytics mGaInstance;
+	private long start;
+	private long end;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +44,13 @@ public class GameActivity extends Activity {
 		// playMusic = new SoundPlayer(this);
 		// playMusic.playBgSound(R.raw.chuyin);
 		// }
+		// Get the GoogleAnalytics singleton. Note that the SDK uses
+		// the application context to avoid leaking the current context.
+		mGaInstance = GoogleAnalytics.getInstance(this);
+
+		// Use the GoogleAnalytics singleton to get a Tracker.
+		mGaTracker = mGaInstance.getTracker("UA-40648258-1"); // Placeholder
+																// tracking ID.
 
 		findViewById(R.id.button_pause).setOnClickListener(
 				new OnClickListener() {
@@ -86,12 +102,12 @@ public class GameActivity extends Activity {
 		return super.onKeyDown(keyCode, event);
 	}
 
-//	@Override
-//	public boolean onCreateOptionsMenu(Menu menu) {
-//		// Inflate the menu; this adds items to the action bar if it is present.
-//		getMenuInflater().inflate(R.menu.game, menu);
-//		return true;
-//	}
+	// @Override
+	// public boolean onCreateOptionsMenu(Menu menu) {
+	// // Inflate the menu; this adds items to the action bar if it is present.
+	// getMenuInflater().inflate(R.menu.game, menu);
+	// return true;
+	// }
 
 	protected void setRefreshChance() {
 		refresh.setText(refreshChance + "÷√ªª");
@@ -99,6 +115,26 @@ public class GameActivity extends Activity {
 			refresh.setClickable(false);
 			refresh.setEnabled(false);
 		}
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		EasyTracker.getInstance().activityStart(this); // Add this method.
+		// Send a screen view when the Activity is displayed to the user.
+		mGaTracker.sendView("/GameActivity");
+		start = System.currentTimeMillis();
+		Log.d(TAG, "start:"+start);
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+		EasyTracker.getInstance().activityStop(this); // Add this method.
+		end = System.currentTimeMillis();
+		Log.d(TAG, "end:"+end);
+		long gameTime = end - start;
+		mGaTracker.sendTiming("ui_time", gameTime, "game_time", "gameview");
 	}
 
 }
