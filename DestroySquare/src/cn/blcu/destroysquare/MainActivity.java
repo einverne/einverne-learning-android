@@ -1,6 +1,8 @@
 package cn.blcu.destroysquare;
 
 import net.youmi.android.AdManager;
+import net.youmi.android.banner.AdSize;
+import net.youmi.android.banner.AdView;
 import net.youmi.android.offers.OffersManager;
 import net.youmi.android.offers.PointsManager;
 import android.app.Activity;
@@ -13,8 +15,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.Toast;
-
 import cn.blcu.destroysquaretool.DateTool;
 
 import com.google.analytics.tracking.android.EasyTracker;
@@ -93,6 +95,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		help.setOnClickListener(this);
 		setting.setOnClickListener(this);
 
+		iniADs();
 		sharedPreferences = this.getSharedPreferences("Date",
 				Context.MODE_PRIVATE);
 		editor = sharedPreferences.edit();
@@ -106,6 +109,15 @@ public class MainActivity extends Activity implements View.OnClickListener {
 			editor.putString("isFirst", "not");
 			editor.commit();
 		}
+	}
+
+	private void iniADs() {
+		//实例化广告条
+		AdView adView = new AdView(this, AdSize.SIZE_320x50);
+		//获取要广告条的布局
+		LinearLayout adLayout=(LinearLayout)findViewById(R.id.adLayout);
+		//将广告条加入到布局中
+		adLayout.addView(adView);
 	}
 
 	@Override
