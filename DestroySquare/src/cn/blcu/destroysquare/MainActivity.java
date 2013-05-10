@@ -20,6 +20,8 @@ import android.widget.Toast;
 import cn.blcu.destroysquaretool.DateTool;
 
 import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.GoogleAnalytics;
+import com.google.analytics.tracking.android.Tracker;
 
 public class MainActivity extends Activity implements View.OnClickListener {
 
@@ -32,12 +34,15 @@ public class MainActivity extends Activity implements View.OnClickListener {
 	ImageButton start;
 	SharedPreferences sharedPreferences;
 	SharedPreferences.Editor editor;
+	private Tracker myTracker;
+	private GoogleAnalytics mGaInstance;
 
 	@Override
 	public void onClick(View v) {
 		int tag = (Integer) v.getTag();
 		switch (tag) {
 		case START:
+			myTracker.sendEvent("ui_action", "button_press", "startGame", null);
 			// 调用spendPoints消费指定金额的积分，这里示例消费100积分
 			if (PointsManager.getInstance(this).spendPoints(10)) {
 				int myPointBalance = PointsManager.getInstance(this)
@@ -56,6 +61,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
 			break;
 		case HELP:
+			myTracker.sendEvent("ui_action", "button_press", "helpActivity",
+					null);
 			Intent intent_2 = new Intent();
 			intent_2.setClass(MainActivity.this, HelpActivity.class);
 			startActivity(intent_2);
@@ -64,6 +71,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
 			;// 参数:读取res中的XML文件实现效果
 			break;
 		case SETTING:
+			myTracker.sendEvent("ui_action", "button_press", "settingActivity",
+					null);
 			Intent intent_3 = new Intent();
 			intent_3.setClass(MainActivity.this, SettingsActivity.class);
 			startActivity(intent_3);
@@ -85,6 +94,15 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		// 请务必调用以下代码，告诉SDK应用启动，可以让SDK进行一些初始化操作。
 		OffersManager.getInstance(this).onAppLaunch();
 		// 调用showOffersWall显示全屏的积分墙界面
+
+		// Get the GoogleAnalytics singleton. Note that the SDK uses
+		// the application context to avoid leaking the current context.
+		mGaInstance = GoogleAnalytics.getInstance(this);
+
+		// Use the GoogleAnalytics singleton to get a Tracker.
+		myTracker = mGaInstance.getTracker("UA-40648258-1"); // Placeholder
+																// tracking ID.
+
 		start = (ImageButton) findViewById(R.id.start);
 		start.setTag(START);
 		help = (ImageButton) findViewById(R.id.help);
@@ -102,8 +120,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 		if (sharedPreferences.getString("isFirst", "first").equals("first")) {
 			// 调用awardPoints可以奖励指定金额的积分，这里示例奖励50积分
 			PointsManager.getInstance(this).awardPoints(50);
-			int myPointBalance = PointsManager.getInstance(this)
-					.queryPoints();
+			int myPointBalance = PointsManager.getInstance(this).queryPoints();
 			Toast.makeText(this, "奖励50积分，当前余额:" + myPointBalance,
 					Toast.LENGTH_SHORT).show();
 			editor.putString("isFirst", "not");
@@ -112,11 +129,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
 	}
 
 	private void iniADs() {
-		//实例化广告条
+		// 实例化广告条
 		AdView adView = new AdView(this, AdSize.SIZE_320x50);
-		//获取要广告条的布局
-		LinearLayout adLayout=(LinearLayout)findViewById(R.id.adLayout);
-		//将广告条加入到布局中
+		// 获取要广告条的布局
+		LinearLayout adLayout = (LinearLayout) findViewById(R.id.adLayout);
+		// 将广告条加入到布局中
 		adLayout.addView(adView);
 	}
 
@@ -134,7 +151,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
 	@Override
 	protected void onDestroy() {
-		// TODO Auto-generated method stub
 		super.onDestroy();
 		// 请务必在应用退出的时候调用以下代码，告诉SDK应用已经关闭，可以让SDK进行一些资源的释放和清理。
 		OffersManager.getInstance(this).onAppExit();
@@ -151,6 +167,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.action_settings:
+			myTracker.sendEvent("ui_action", "menu_press", "settingActivity",
+					null);
 			Intent intent_3 = new Intent();
 			intent_3.setClass(MainActivity.this, SettingsActivity.class);
 			startActivity(intent_3);
@@ -158,7 +176,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 					R.anim.rotate_out);// 参数:读取res中的XML文件实现效果
 			break;
 		case R.id.action_eachday:
-
+			myTracker.sendEvent("ui_action", "menu_press", "eachday", null);
 			if (!DateTool.getTodayDate().equals(
 					sharedPreferences.getString("date",
 							DateTool.getDateTodayMinusDay(1)))) {
@@ -172,11 +190,14 @@ public class MainActivity extends Activity implements View.OnClickListener {
 				editor.putString("date", DateTool.getTodayDate());
 				editor.commit();
 			} else {
-				Toast.makeText(this, "今天已经签过到,明天再来吧!", Toast.LENGTH_SHORT)
+				int myPointBalance = PointsManager.getInstance(this)
+						.queryPoints();
+				Toast.makeText(this, "今天已经签过到,明天再来吧!当前余额:"+myPointBalance, Toast.LENGTH_SHORT)
 						.show();
 			}
 			break;
 		case R.id.action_jifen:
+			myTracker.sendEvent("ui_action", "menu_press", "getJifen", null);
 			// 调用showOffersWall显示全屏的积分墙界面
 			OffersManager.getInstance(this).showOffersWall();
 			break;
