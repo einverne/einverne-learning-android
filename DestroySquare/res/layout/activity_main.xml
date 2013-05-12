@@ -83,9 +83,9 @@
         android:id="@+id/adLayout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/setting"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
         android:gravity="center_horizontal" >
-
     </LinearLayout>
 
 </RelativeLayout>
