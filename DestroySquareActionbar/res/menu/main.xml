@@ -8,7 +8,7 @@
     <item
         android:id="@+id/action_eachday"
         android:orderInCategory="100"
-        android:showAsAction="never"
+        android:showAsAction="always|withText"
         android:title="@string/action_eachday"/>
     <item
         android:id="@+id/action_jifen"

@@ -1,15 +1,15 @@
 package cn.blcu.destroysquare;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.Window;
-import android.widget.Button;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.GoogleAnalytics;
@@ -19,8 +19,6 @@ public class GameActivity extends Activity {
 	private static final String TAG = "EV_DEBUG";
 	SharedPreferences.Editor editor;
 	SquareView myView;
-	// private SoundPlayer playMusic;
-	Button refresh;
 	int refreshChance = 2;
 	SharedPreferences sharedPreferences;
 	private Tracker mGaTracker;
@@ -31,13 +29,16 @@ public class GameActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+		// requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 
 		myView = new SquareView(GameActivity.this);
 		setContentView(myView);
 
-		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,
-				R.layout.title_bar);
+		ActionBar actionbar = getActionBar();
+		actionbar.setDisplayHomeAsUpEnabled(true);
+
+		// getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,
+		// R.layout.title_bar);
 		sharedPreferences = this.getSharedPreferences("flag",
 				Context.MODE_PRIVATE);
 		// if (sharedPreferences.getBoolean("bgflag", true)) {
@@ -52,26 +53,25 @@ public class GameActivity extends Activity {
 		mGaTracker = mGaInstance.getTracker("UA-40648258-1"); // Placeholder
 																// tracking ID.
 
-		findViewById(R.id.button_pause).setOnClickListener(
-				new OnClickListener() {
-
-					@Override
-					public void onClick(View v) {
-						myView.pause();
-						// playMusic.stopBgSound();
-					}
-				});
-		refresh = (Button) findViewById(R.id.button_refresh);
-		refresh.setText(refreshChance + "÷√ªª");
-		refresh.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				myView.refresh();
-				refreshChance--;
-				setRefreshChance();
-			}
-		});
+		// findViewById(R.id.button_pause).setOnClickListener(
+		// new OnClickListener() {
+		//
+		// @Override
+		// public void onClick(View v) {
+		// myView.pause();
+		// }
+		// });
+		// refresh = (Button) findViewById(R.id.button_refresh);
+		// refresh.setText(refreshChance + "÷√ªª");
+		// refresh.setOnClickListener(new OnClickListener() {
+		//
+		// @Override
+		// public void onClick(View v) {
+		// myView.refresh();
+		// refreshChance--;
+		// setRefreshChance();
+		// }
+		// });
 
 	}
 
@@ -87,9 +87,6 @@ public class GameActivity extends Activity {
 			myView.pause();
 		}
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			// if(sharedPreferences.getBoolean("bgflag", true)){
-			// playMusic.stopBgSound();
-			// }
 			if (myView.playMusic != null) {
 				myView.playMusic.stopBgSound();
 			}
@@ -102,21 +99,6 @@ public class GameActivity extends Activity {
 		return super.onKeyDown(keyCode, event);
 	}
 
-	// @Override
-	// public boolean onCreateOptionsMenu(Menu menu) {
-	// // Inflate the menu; this adds items to the action bar if it is present.
-	// getMenuInflater().inflate(R.menu.game, menu);
-	// return true;
-	// }
-
-	protected void setRefreshChance() {
-		refresh.setText(refreshChance + "÷√ªª");
-		if (refreshChance <= 0) {
-			refresh.setClickable(false);
-			refresh.setEnabled(false);
-		}
-	}
-
 	@Override
 	protected void onStart() {
 		super.onStart();
@@ -124,7 +106,7 @@ public class GameActivity extends Activity {
 		// Send a screen view when the Activity is displayed to the user.
 		mGaTracker.sendView("/GameActivity");
 		start = System.currentTimeMillis();
-		Log.d(TAG, "start:"+start);
+		Log.d(TAG, "start:" + start);
 	}
 
 	@Override
@@ -132,9 +114,46 @@ public class GameActivity extends Activity {
 		super.onStop();
 		EasyTracker.getInstance().activityStop(this); // Add this method.
 		end = System.currentTimeMillis();
-		Log.d(TAG, "end:"+end);
+		Log.d(TAG, "end:" + end);
 		long gameTime = end - start;
 		mGaTracker.sendTiming("ui_time", gameTime, "game_time", "gameview");
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.game, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			if (myView.playMusic != null) {
+				myView.playMusic.stopBgSound();
+			}
+			myView.timer.cancel();
+			myView.timertask.cancel();
+			finish();
+			Intent intent = new Intent(this, MainActivity.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			startActivity(intent);
+			return true;
+		case R.id.pause:
+			myView.pause();
+			break;
+		case R.id.refresh:
+			if (refreshChance>0) {
+				myView.refresh();
+				refreshChance--;
+				item.setTitle("÷√ªª:"+refreshChance);
+			}
+			break;
+		default:
+			break;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 }

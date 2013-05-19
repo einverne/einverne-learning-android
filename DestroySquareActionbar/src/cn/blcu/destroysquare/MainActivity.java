@@ -48,6 +48,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 				int myPointBalance = PointsManager.getInstance(this)
 						.queryPoints();
 				Log.d("test", "已消费10积分，当前余额为:" + myPointBalance);
+				Toast.makeText(getApplicationContext(), "已消费10积分，当前余额为:" + myPointBalance, Toast.LENGTH_SHORT).show();
 				Intent intent = new Intent();
 				intent.setClass(MainActivity.this, GameActivity.class);
 				startActivity(intent);
@@ -55,7 +56,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 						R.anim.rotate_out);// 参数:读取res中的XML文件实现效果
 				// 摇摆
 			} else {
-				Toast.makeText(MainActivity.this, "消费积分失败(积分余额不足)",
+				Toast.makeText(MainActivity.this, "消费积分失败(积分余额不足),请去获取积分",
 						Toast.LENGTH_SHORT).show();
 			}
 
