@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="cn.blcu.destroysquare"
-    android:versionCode="2"
-    android:versionName="1.0.6" >
+    android:versionCode="3"
+    android:versionName="1.0.7" >
 
     <uses-sdk
-        android:minSdkVersion="8"
+        android:minSdkVersion="11"
         android:targetSdkVersion="17" />
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -13,6 +13,8 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -22,7 +24,8 @@
         <activity
             android:name="cn.blcu.destroysquare.MainActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Holo.Light" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -33,23 +36,31 @@
             android:name="cn.blcu.destroysquare.GameActivity"
             android:label="@string/title_activity_game"
             android:screenOrientation="portrait"
-            android:theme="@style/CustomTheme" >
+            android:theme="@android:style/Theme.Holo.Light" >
+
+            <!-- android:theme="@style/CustomTheme" -->
         </activity>
         <activity
             android:name="cn.blcu.destroysquare.HelpActivity"
             android:label="@string/title_activity_help"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Holo.Light" >
         </activity>
         <activity
             android:name="cn.blcu.destroysquare.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Holo.Light" >
         </activity>
         <activity
             android:name="net.youmi.android.AdBrowser"
             android:configChanges="keyboard|keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="cn.domob.android.ads.DomobActivity"
+            android:theme="@android:style/Theme.Translucent" >
         </activity>
 
         <service
@@ -74,5 +85,6 @@
         android:name="YOUMI_CHANNEL"
         android:value="这里替换为渠道号" >
     </meta-data>
-
+<meta-data android:value="518c7ace56240b9728017b37" android:name="UMENG_APPKEY"></meta-data>
+<meta-data android:value="Channel ID" android:name="UMENG_CHANNEL"/>
 </manifest>

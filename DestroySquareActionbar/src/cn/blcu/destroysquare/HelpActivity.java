@@ -3,7 +3,9 @@ package cn.blcu.destroysquare;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.os.Bundle;
@@ -14,24 +16,26 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.AbsListView.OnScrollListener;
+
+import com.google.analytics.tracking.android.EasyTracker;
 
 public class HelpActivity extends Activity implements OnScrollListener {
 
-	private ViewPager mPager;// 页锟斤拷锟斤拷锟斤拷
-	private List<View> listViews; // Tab页锟斤拷锟叫憋拷
-	private ImageView cursor;// 锟斤拷锟斤拷图片
-	private TextView t1, t2, t3;// 页锟斤拷头锟斤拷
-	private int offset = 0;// 锟斤拷锟斤拷图片偏锟斤拷
-	private int currIndex = 0;// 锟斤拷前页锟斤拷锟斤拷锟ￄ1�7
-	private int bmpW;// 锟斤拷锟斤拷图片锟斤拷锟ￄ1�7
+	private ViewPager mPager;
+	private List<View> listViews;
+	private ImageView cursor;
+	private TextView t1, t2, t3;
+	private int offset = 0;
+	private int currIndex = 0;
+	private int bmpW;
 
 	private void InitTextView() {
 		t1 = (TextView) findViewById(R.id.text1);
@@ -70,9 +74,6 @@ public class HelpActivity extends Activity implements OnScrollListener {
 		());
 	}
 
-	/**
-     * ViewPager锟斤拷锟斤拷锟斤拄1�7
-*/
     public class MyPagerAdapter extends PagerAdapter {
         public List<View> mListViews;
 
@@ -119,30 +120,23 @@ public class HelpActivity extends Activity implements OnScrollListener {
         }
     }
 
-    /**
-     * 锟斤拷始锟斤拷锟斤拷锟斤拄1�7
-*/
     private void InitImageView() {
         cursor = (ImageView) findViewById(R.id.cursor);
         bmpW = BitmapFactory.decodeResource(getResources(), R.drawable.a1)
-                .getWidth();// 锟斤拷取图片锟斤拷锟ￄ1�7
+                .getWidth();
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
-        int screenW = dm.widthPixels;// 锟斤拷取锟街憋拷锟绞匡拷锟�
-        offset = (screenW / 3 - bmpW) / 2;// 锟斤拷锟斤拷偏锟斤拷
+        int screenW = dm.widthPixels;
+        offset = (screenW / 3 - bmpW) / 2;
         Matrix matrix = new Matrix();
         matrix.postTranslate(offset, 0);
-        cursor.setImageMatrix(matrix);// 锟斤拷锟矫讹拷锟斤拷锟斤拷始位锟斤拷
+        cursor.setImageMatrix(matrix);
     }
 
-    /**
-     * 页锟斤拷锟叫伙拷锟斤拷锟斤拷
-*/
     public class MyOnPageChangeListener implements OnPageChangeListener {
 
-        int one = offset * 2 + bmpW;// 页锟斤拷1 -> 页锟斤拷2 偏锟斤拷
-        int two = one * 2;// 页锟斤拷1 -> 页锟斤拷3 偏锟斤拷
-
+        int one = offset * 2 + bmpW;
+        int two = one * 2;
         @Override
         public void onPageSelected(int arg0) {
             Animation animation = null;
@@ -170,7 +164,7 @@ public class HelpActivity extends Activity implements OnScrollListener {
                 break;
             }
             currIndex = arg0;
-            animation.setFillAfter(true);// True:图片停锟节讹拷锟斤拷锟斤拷锟斤拷位锟斤拷
+            animation.setFillAfter(true);
             animation.setDuration(300);
             cursor.startAnimation(animation);
         }
@@ -188,6 +182,9 @@ public class HelpActivity extends Activity implements OnScrollListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_help);
+		
+		ActionBar actionbar = getActionBar();
+		actionbar.setDisplayHomeAsUpEnabled(true);
 		
 		InitImageView();
 		InitTextView();
@@ -223,6 +220,35 @@ public class HelpActivity extends Activity implements OnScrollListener {
 	public void onScrollStateChanged(AbsListView view, int scrollState) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			Intent intent = new Intent(this, MainActivity.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			startActivity(intent);
+			return true;
+
+		default:
+			break;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	protected void onStart() {
+		// The rest of your onStart() code.
+	    EasyTracker.getInstance().activityStart(this); // Add this method.F
+		super.onStart();
+	}
+
+	@Override
+	protected void onStop() {
+		// The rest of your onStop() code.
+	    EasyTracker.getInstance().activityStop(this); // Add this method.
+		super.onStop();
 	}
 
 	// @Override

@@ -10,6 +10,7 @@ import android.R.color;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
@@ -22,7 +23,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
@@ -60,7 +60,6 @@ public class SquareView extends View {
 
 	SharedPreferences sharedPreferences;
 	SharedPreferences sharedPreferences_s;
-	private int sound;
 	public boolean soundFlag = true;
 	private SoundPool soundPool;
 	private HashMap<Integer, Integer> soundMap = new HashMap<Integer, Integer>();
@@ -133,17 +132,23 @@ public class SquareView extends View {
 								GA.startActivity(intent);
 							}
 						})
-				.setNegativeButton("Close",
+				.setNegativeButton("Share",
 						new DialogInterface.OnClickListener() {
 
 							@Override
 							public void onClick(DialogInterface dialog,
 									int which) {
-								dialog.cancel();
-								GameActivity GA = (GameActivity) context;
-								GA.finish();
+								shareApps();
 							}
-						}).setCancelable(false).show();
+						})
+						.setOnCancelListener(new OnCancelListener() {
+							@Override
+							public void onCancel(DialogInterface dialog) {
+								dialog.cancel();
+								GameActivity ga = (GameActivity) context;
+								ga.finish();
+							}
+						}).setCancelable(true).show();
 	}
 
 	private void getBoundrayValue() {
@@ -316,7 +321,6 @@ public class SquareView extends View {
 	}
 	
 	public void initBgSounds() {
-		//Log.d("hhhhhhhh",sharedPreferences_s.getAll()+"");
 		if (sharedPreferences_s.getBoolean("bgflag", true)) {
 			playMusic = new SoundPlayer(context);
 			playMusic.playBgSound(R.raw.chuyin);
@@ -493,7 +497,6 @@ public class SquareView extends View {
 
 		if (Squares.size() == 0) {
 			initialize();
-			Log.d("ccccccc",colors.toString());
 		}
 		for (int i = 0; i < Squares.size(); i++) {
 
@@ -529,6 +532,9 @@ public class SquareView extends View {
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
+		if (isTimerStop) {
+			return false;
+		}
 		if (event.getAction() == MotionEvent.ACTION_DOWN) {
 			// Log.d(TAG,
 			// "Event.getx:" + event.getX() + "Event.gety:" + event.getY());
@@ -742,7 +748,21 @@ public class SquareView extends View {
 		}
 	}
 
-
+	/*
+	 * 调用系统的分享菜单 share app
+	 */
+	private void shareApps(){
+		//实例化一个Intent对象，并且设置Intent的Action为ACTION_SEND
+		Intent intent=new Intent(Intent.ACTION_SEND); 
+		//设置MIME数据类型
+		intent.setType("text/plain"); 
+		//设置主题
+		intent.putExtra(Intent.EXTRA_SUBJECT, "分享得分"); 
+		//设置内容
+		intent.putExtra(Intent.EXTRA_TEXT, "我在 #四方消除 中得到"+score+"分"); 
+		//启动Activity，并设置菜单标题
+		context.startActivity(Intent.createChooser(intent, "分享你的得分:")); 
+	}
 
 	
 	

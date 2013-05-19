@@ -6,5 +6,7 @@
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry kind="lib" path="libs/libGoogleAnalyticsV2.jar"/>
 	<classpathentry kind="lib" path="libs/YoumiSdk_Banner_Spot_Offers_2013-04-17.jar"/>
+	<classpathentry kind="lib" path="libs/domob_android_sdk.jar"/>
+	<classpathentry kind="lib" path="libs/umeng_sdk.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
