@@ -1,13 +1,10 @@
 package cn.blcu.destroysquare;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.KeyEvent;
-import android.view.MenuItem;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -16,9 +13,14 @@ import cn.domob.android.ads.DomobAdEventListener;
 import cn.domob.android.ads.DomobAdManager.ErrorCode;
 import cn.domob.android.ads.DomobAdView;
 
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.ActionProvider;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 import com.google.analytics.tracking.android.EasyTracker;
 
-public class SettingsActivity extends Activity {
+public class SettingsActivity extends SherlockActivity {
 	public static final String PUBLISHER_ID = "56OJzw2IuNXifZqbis";
 	public static final String InlinePPID = "16TLm5ToApCv4NUHYH4Vk63k";
 	
@@ -34,7 +36,7 @@ public class SettingsActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_setting);
-		ActionBar actionBar = getActionBar();
+		ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		CheckBox bg = (CheckBox) this.findViewById(R.id.CheckBox_bg);
 		CheckBox yx = (CheckBox) this.findViewById(R.id.CheckBox_yx);
