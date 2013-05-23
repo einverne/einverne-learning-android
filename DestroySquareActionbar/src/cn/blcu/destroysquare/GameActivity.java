@@ -1,21 +1,23 @@
 package cn.blcu.destroysquare;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuItem;
+
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.ActionProvider;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.google.analytics.tracking.android.Tracker;
 
-public class GameActivity extends Activity {
+public class GameActivity extends SherlockActivity {
 	private static final String TAG = "EV_DEBUG";
 	SharedPreferences.Editor editor;
 	SquareView myView;
@@ -34,7 +36,7 @@ public class GameActivity extends Activity {
 		myView = new SquareView(GameActivity.this);
 		setContentView(myView);
 
-		ActionBar actionbar = getActionBar();
+		ActionBar actionbar = getSupportActionBar();
 		actionbar.setDisplayHomeAsUpEnabled(true);
 
 		// getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,
@@ -122,7 +124,7 @@ public class GameActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.game, menu);
+		getSupportMenuInflater().inflate(R.menu.game, menu);
 		return true;
 	}
 
