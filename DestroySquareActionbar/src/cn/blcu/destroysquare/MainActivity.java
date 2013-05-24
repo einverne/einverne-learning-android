@@ -14,8 +14,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 import cn.blcu.destroysquaretool.DateTool;
+import cn.domob.android.ads.DomobAdEventListener;
+import cn.domob.android.ads.DomobAdView;
+import cn.domob.android.ads.DomobAdManager.ErrorCode;
 
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.ActionProvider;
@@ -32,6 +36,10 @@ public class MainActivity extends SherlockActivity implements View.OnClickListen
 	private static final int SETTING = 2;
 	private static final int START = 0;
 	private static final String TAG = "EV_DEBUG";
+	public static final String InterstitialPPID = "16TLm5ToApCv4NUH4b_Xhj1z";
+	public static final String PUBLISHER_ID = "56OJzw2IuNXifZqbis";
+	public static final String InlinePPID = "16TLm5ToApCv4NUHYH4Vk63k";
+
 	ImageButton help;
 	ImageButton setting;
 	ImageButton start;
@@ -39,6 +47,9 @@ public class MainActivity extends SherlockActivity implements View.OnClickListen
 	SharedPreferences.Editor editor;
 	private Tracker myTracker;
 	private GoogleAnalytics mGaInstance;
+	
+	RelativeLayout mAdContainer;
+	DomobAdView mAdview320x50;
 
 	@Override
 	public void onClick(View v) {
@@ -50,7 +61,7 @@ public class MainActivity extends SherlockActivity implements View.OnClickListen
 			if (PointsManager.getInstance(this).spendPoints(10)) {
 				int myPointBalance = PointsManager.getInstance(this)
 						.queryPoints();
-				Log.d("test", "已消费10积分，当前余额为:" + myPointBalance);
+				Log.d("EV_DEBUG", "已消费10积分，当前余额为:" + myPointBalance);
 				Toast.makeText(getApplicationContext(), "已消费10积分，当前余额为:" + myPointBalance, Toast.LENGTH_SHORT).show();
 				Intent intent = new Intent();
 				intent.setClass(MainActivity.this, GameActivity.class);
@@ -59,8 +70,11 @@ public class MainActivity extends SherlockActivity implements View.OnClickListen
 						R.anim.rotate_out);// 参数:读取res中的XML文件实现效果
 				// 摇摆
 			} else {
-				Toast.makeText(MainActivity.this, "消费积分失败(积分余额不足),请去获取积分",
+				Toast.makeText(MainActivity.this, "消费积分失败(积分余额不足),请去获取积分,跳转到积分墙",
 						Toast.LENGTH_SHORT).show();
+				myTracker.sendEvent("ui_action", "no_jifen", "getJifen", null);
+				// 调用showOffersWall显示全屏的积分墙界面
+				OffersManager.getInstance(this).showOffersWall();
 			}
 
 			break;
@@ -118,6 +132,7 @@ public class MainActivity extends SherlockActivity implements View.OnClickListen
 		setting.setOnClickListener(this);
 
 		iniADs();
+		iniDomobInlineAD();
 		sharedPreferences = this.getSharedPreferences("Date",
 				Context.MODE_PRIVATE);
 		editor = sharedPreferences.edit();
@@ -130,6 +145,58 @@ public class MainActivity extends SherlockActivity implements View.OnClickListen
 			editor.putString("isFirst", "not");
 			editor.commit();
 		}
+		
+		
+		mAdview320x50.setAdEventListener(new DomobAdEventListener() {
+			
+			@Override
+			public void onDomobLeaveApplication(DomobAdView arg0) {
+				
+			}
+			
+			@Override
+			public void onDomobAdReturned(DomobAdView arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public Context onDomobAdRequiresCurrentContext() {
+				// TODO Auto-generated method stub
+				return MainActivity.this;
+			}
+			
+			@Override
+			public void onDomobAdOverlayPresented(DomobAdView arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onDomobAdOverlayDismissed(DomobAdView arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onDomobAdFailed(DomobAdView arg0, ErrorCode arg1) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onDomobAdClicked(DomobAdView arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		mAdContainer.addView(mAdview320x50);
+	}
+
+	private void iniDomobInlineAD() {
+		mAdContainer = (RelativeLayout)findViewById(R.id.domobAdcontainer);
+		mAdview320x50 = new DomobAdView(this, PUBLISHER_ID, InlinePPID, DomobAdView.INLINE_SIZE_320X50);
 	}
 
 	private void iniADs() {

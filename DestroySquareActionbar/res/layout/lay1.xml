@@ -2,8 +2,8 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" 
-    android:background="@color/white">
+    android:background="@color/white"
+    android:orientation="vertical" >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -11,8 +11,6 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:orientation="vertical" >
-
-       
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -24,7 +22,7 @@
                 android:id="@+id/textView1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="四方消除"
+                android:text="@string/app_name"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
         </LinearLayout>
 
@@ -38,20 +36,20 @@
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="四方消除是一款简洁有趣的益智游戏，游戏共有四个关卡，每个关卡都有一定的时间限制，游戏中需要找到四个可以组成一个长方形或者正方形的同色方块，选中后进行消除。选中的方块组成的矩形区域越大， 消除的方块越多，分数也越多。" />
+                android:text="@string/game_desc" />
         </LinearLayout>
 
-         <LinearLayout
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:layout_marginBottom="5dp"
-             android:layout_marginLeft="2dp"
-             android:layout_marginRight="2dp"
-             android:layout_marginTop="30dp"
-             android:orientation="vertical" >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginTop="30dp"
+            android:orientation="vertical" >
 
             <TextView
-                android:id="@+id/textView6"
+                android:id="@+id/textView_version"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
@@ -83,7 +81,3 @@
     </LinearLayout>
 
 </ScrollView>
-		
-	
-
-

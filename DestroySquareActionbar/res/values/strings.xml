@@ -10,6 +10,6 @@
     <string name="action_eachday">每日签到</string>
     <string name="action_settings">设置</string>
     <string name="action_jifen">获取积分</string>
-    <string name="version_name">1.0.6</string>
+    <string name="game_desc">四方消除是一款简洁有趣的益智游戏，游戏共有四个关卡，每个关卡都有一定的时间限制，游戏中需要找到四个可以组成一个长方形或者正方形的同色方块，选中后进行消除。选中的方块组成的矩形区域越大， 消除的方块越多，分数也越多。</string>
 
 </resources>

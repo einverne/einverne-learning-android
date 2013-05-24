@@ -6,13 +6,14 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import cn.domob.android.ads.DomobAdManager.ErrorCode;
+import cn.domob.android.ads.DomobInterstitialAd;
+import cn.domob.android.ads.DomobInterstitialAdListener;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
-import com.actionbarsherlock.view.ActionProvider;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
-
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.google.analytics.tracking.android.Tracker;
@@ -28,6 +29,8 @@ public class GameActivity extends SherlockActivity {
 	private long start;
 	private long end;
 
+	DomobInterstitialAd domobInterstitialAd;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -38,6 +41,10 @@ public class GameActivity extends SherlockActivity {
 
 		ActionBar actionbar = getSupportActionBar();
 		actionbar.setDisplayHomeAsUpEnabled(true);
+
+		domobInterstitialAd = new DomobInterstitialAd(this,
+				MainActivity.PUBLISHER_ID, MainActivity.InterstitialPPID,
+				DomobInterstitialAd.INTERSITIAL_SIZE_600X500);
 
 		// getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,
 		// R.layout.title_bar);
@@ -54,6 +61,49 @@ public class GameActivity extends SherlockActivity {
 		// Use the GoogleAnalytics singleton to get a Tracker.
 		mGaTracker = mGaInstance.getTracker("UA-40648258-1"); // Placeholder
 																// tracking ID.
+
+		domobInterstitialAd
+				.setInterstitialAdListener(new DomobInterstitialAdListener() {
+
+					@Override
+					public void onLandingPageOpen() {
+						Log.i("DomobSDKDemo", "onLandingPageOpen");
+					}
+
+					@Override
+					public void onLandingPageClose() {
+						Log.i("DomobSDKDemo", "onLandingPageClose");
+					}
+
+					@Override
+					public void onInterstitialAdReady() {
+						Log.i("DomobSDKDemo", "onAdReady");
+					}
+
+					@Override
+					public void onInterstitialAdPresent() {
+						Log.i("DomobSDKDemo", "onInterstitialAdPresent");
+					}
+
+					@Override
+					public void onInterstitialAdLeaveApplication() {
+						Log.i("DomobSDKDemo",
+								"onInterstitialAdLeaveApplication");
+					}
+
+					@Override
+					public void onInterstitialAdFailed(ErrorCode arg0) {
+						Log.i("DomobSDKDemo", "onInterstitialAdFailed");
+					}
+
+					@Override
+					public void onInterstitialAdDismiss() {
+						domobInterstitialAd.loadInterstitialAd();
+						Log.i("DomobSDKDemo", "onInterstitialAdDismiss");
+					}
+				});
+
+		domobInterstitialAd.loadInterstitialAd();
 
 		// findViewById(R.id.button_pause).setOnClickListener(
 		// new OnClickListener() {
@@ -144,12 +194,18 @@ public class GameActivity extends SherlockActivity {
 			return true;
 		case R.id.pause:
 			myView.pause();
+			if (domobInterstitialAd.isInterstitialAdReady()) {
+				domobInterstitialAd.showInterstitialAd(this);
+			} else {
+				Log.i("DomobSDKDemo", "Interstitial Ad is not ready");
+				domobInterstitialAd.loadInterstitialAd();
+			}
 			break;
 		case R.id.refresh:
-			if (refreshChance>0) {
+			if (refreshChance > 0) {
 				myView.refresh();
 				refreshChance--;
-				item.setTitle("÷√ªª:"+refreshChance);
+				item.setTitle("÷√ªª:" + refreshChance);
 			}
 			break;
 		default:
