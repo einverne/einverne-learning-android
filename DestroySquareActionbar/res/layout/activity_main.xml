@@ -2,90 +2,109 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_gravity="center_vertical|center_horizontal"
     android:background="@color/white"
-    android:gravity="center_vertical"
-    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:gravity="center_vertical|center_horizontal"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity" >
-
-    <ImageButton
-        android:id="@+id/help"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/start"
-        android:layout_below="@+id/start"
-        android:layout_marginTop="20dp"
-        android:background="@color/white"
-        android:src="@drawable/ic_tutorial" />
-
-    <ImageButton
-        android:id="@+id/setting"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/help"
-        android:layout_alignRight="@+id/help"
-        android:layout_below="@+id/help"
-        android:layout_marginTop="20dp"
-        android:background="@color/white"
-        android:src="@drawable/ic_more" />
-
-    <ImageButton
-        android:id="@+id/start"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="10dp"
-        android:background="@color/white"
-        android:src="@drawable/ic_play" />
-
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/start"
-        android:layout_marginLeft="13dp"
-        android:layout_marginTop="44dp"
-        android:layout_toRightOf="@+id/start"
-        android:text="Start Game"
-        android:textSize="23dp"
-        android:textStyle="bold"
-        android:typeface="sans" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView1"
-        android:layout_alignTop="@+id/help"
-        android:layout_marginTop="47dp"
-        android:text="How to Play"
-        android:textSize="23dp"
-        android:textStyle="bold"
-        android:typeface="normal" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView2"
-        android:layout_alignTop="@+id/setting"
-        android:layout_marginTop="42dp"
-        android:text="Setting"
-        android:textSize="23dp"
-        android:textStyle="bold"
-        android:typeface="normal" />
 
     <LinearLayout
         android:id="@+id/adLayout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
         android:gravity="center_horizontal" >
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/domobAdcontainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_alignParentTop="true" >
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/linear_play"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/domobAdcontainer"
+        android:layout_marginBottom="10dp"
+        android:gravity="center_vertical" >
+
+        <ImageButton
+            android:id="@+id/start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@color/white"
+            android:src="@drawable/ic_play" />
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Start Game"
+            android:textSize="23dp"
+            android:textStyle="bold"
+            android:typeface="sans" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linear_how"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/linear_play"
+        android:layout_marginBottom="10dp"
+        android:gravity="center_vertical" >
+
+        <ImageButton
+            android:id="@+id/help"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@color/white"
+            android:src="@drawable/ic_tutorial" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="How to Play"
+            android:textSize="23dp"
+            android:textStyle="bold"
+            android:typeface="normal" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linear_setting"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/linear_how"
+        android:gravity="center_vertical" >
+
+        <ImageButton
+            android:id="@+id/setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@color/white"
+            android:src="@drawable/ic_more" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Game Setting"
+            android:textSize="23dp"
+            android:textStyle="bold"
+            android:typeface="normal" />
     </LinearLayout>
 
 </RelativeLayout>
