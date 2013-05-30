@@ -6,12 +6,17 @@ import net.youmi.android.banner.AdView;
 import net.youmi.android.offers.OffersManager;
 import net.youmi.android.offers.PointsManager;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -29,6 +34,10 @@ import com.actionbarsherlock.view.MenuItem;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.google.analytics.tracking.android.Tracker;
+import com.umeng.update.UmengDownloadListener;
+import com.umeng.update.UmengUpdateAgent;
+import com.umeng.update.UmengUpdateListener;
+import com.umeng.update.UpdateResponse;
 
 public class MainActivity extends SherlockActivity implements View.OnClickListener {
 
@@ -39,6 +48,7 @@ public class MainActivity extends SherlockActivity implements View.OnClickListen
 	public static final String InterstitialPPID = "16TLm5ToApCv4NUH4b_Xhj1z";
 	public static final String PUBLISHER_ID = "56OJzw2IuNXifZqbis";
 	public static final String InlinePPID = "16TLm5ToApCv4NUHYH4Vk63k";
+	protected static final Object PASSCODE = "einverne";
 
 	ImageButton help;
 	ImageButton setting;
@@ -57,6 +67,16 @@ public class MainActivity extends SherlockActivity implements View.OnClickListen
 		switch (tag) {
 		case START:
 			myTracker.sendEvent("ui_action", "button_press", "startGame", null);
+			
+			sharedPreferences = getSharedPreferences("PASSCODE", MODE_PRIVATE);
+			if (sharedPreferences.getBoolean("Forever", false)) {
+				Intent intent = new Intent();
+				intent.setClass(MainActivity.this, GameActivity.class);
+				startActivity(intent);
+				this.overridePendingTransition(R.anim.new_dync_in_from_right,
+						R.anim.new_dync_out_to_left);
+				break;
+			}
 			// 调用spendPoints消费指定金额的积分，这里示例消费100积分
 			if (PointsManager.getInstance(this).spendPoints(10)) {
 				int myPointBalance = PointsManager.getInstance(this)
@@ -66,8 +86,10 @@ public class MainActivity extends SherlockActivity implements View.OnClickListen
 				Intent intent = new Intent();
 				intent.setClass(MainActivity.this, GameActivity.class);
 				startActivity(intent);
-				MainActivity.this.overridePendingTransition(R.anim.rotate_in,
-						R.anim.rotate_out);// 参数:读取res中的XML文件实现效果
+//				this.overridePendingTransition(R.anim.rotate_in,
+//						R.anim.rotate_out);// 参数:读取res中的XML文件实现效果
+				this.overridePendingTransition(R.anim.in_from_right,
+						R.anim.out_to_left);// 参数:读取res中的XML文件实现效果
 				// 摇摆
 			} else {
 				Toast.makeText(MainActivity.this, "消费积分失败(积分余额不足),请去获取积分,跳转到积分墙",
@@ -84,8 +106,8 @@ public class MainActivity extends SherlockActivity implements View.OnClickListen
 			Intent intent_2 = new Intent();
 			intent_2.setClass(MainActivity.this, HelpActivity.class);
 			startActivity(intent_2);
-			MainActivity.this.overridePendingTransition(R.anim.rotate_in,
-					R.anim.rotate_out);
+			MainActivity.this.overridePendingTransition(R.anim.new_dync_in_from_right,
+					R.anim.new_dync_out_to_left);
 			;// 参数:读取res中的XML文件实现效果
 			break;
 		case SETTING:
@@ -94,8 +116,8 @@ public class MainActivity extends SherlockActivity implements View.OnClickListen
 			Intent intent_3 = new Intent();
 			intent_3.setClass(MainActivity.this, SettingsActivity.class);
 			startActivity(intent_3);
-			MainActivity.this.overridePendingTransition(R.anim.rotate_in,
-					R.anim.rotate_out);// 参数:读取res中的XML文件实现效果
+			MainActivity.this.overridePendingTransition(R.anim.new_dync_in_from_right,
+					R.anim.new_dync_out_to_left);// 参数:读取res中的XML文件实现效果
 			break;
 		default:
 			break;
@@ -130,6 +152,18 @@ public class MainActivity extends SherlockActivity implements View.OnClickListen
 		start.setOnClickListener(this);
 		help.setOnClickListener(this);
 		setting.setOnClickListener(this);
+		
+		LinearLayout linear_start = (LinearLayout)findViewById(R.id.linear_play);
+		linear_start.setTag(START);
+		linear_start.setOnClickListener(this);
+		
+		LinearLayout linear_help = (LinearLayout)findViewById(R.id.linear_how);
+		linear_help.setTag(HELP);
+		linear_help.setOnClickListener(this);
+		LinearLayout linear_setting = (LinearLayout)findViewById(R.id.linear_setting);
+		linear_setting.setTag(SETTING);
+		linear_setting.setOnClickListener(this);
+		
 
 		iniADs();
 		iniDomobInlineAD();
@@ -271,6 +305,76 @@ public class MainActivity extends SherlockActivity implements View.OnClickListen
 			myTracker.sendEvent("ui_action", "menu_press", "getJifen", null);
 			// 调用showOffersWall显示全屏的积分墙界面
 			OffersManager.getInstance(this).showOffersWall();
+			break;
+		case R.id.update:
+			UmengUpdateAgent.update(getApplication());
+			UmengUpdateAgent.setUpdateAutoPopup(false);
+			UmengUpdateAgent.setUpdateListener(new UmengUpdateListener() {
+				
+				@Override
+				public void onUpdateReturned(int updateStatus, UpdateResponse updateInfo) {
+					switch (updateStatus) {
+		            case 0: // has update
+		                UmengUpdateAgent.showUpdateDialog(MainActivity.this, updateInfo);
+		                break;
+		            case 1: // has no update
+		                Toast.makeText(MainActivity.this, "没有更新", Toast.LENGTH_SHORT)
+		                        .show();
+		                break;
+		            case 2: // none wifi
+		                Toast.makeText(MainActivity.this, "没有wifi连接， 只在wifi下更新", Toast.LENGTH_SHORT)
+		                        .show();
+		                break;
+		            case 3: // time out
+		                Toast.makeText(MainActivity.this, "超时", Toast.LENGTH_SHORT)
+		                        .show();
+		                break;
+		            }
+				}
+			});
+			UmengUpdateAgent.setOnDownloadListener(new UmengDownloadListener() {
+				
+				@Override
+				public void OnDownloadEnd(int result) {
+			        if (result == 1) {
+			        	Toast.makeText(MainActivity.this, "下载成功" , Toast.LENGTH_SHORT).show();
+					}else{
+						Toast.makeText(MainActivity.this, "下载失败" , Toast.LENGTH_SHORT).show();
+					}
+				}
+			});
+			break;
+		case R.id.passcode:
+			LayoutInflater inflater = LayoutInflater.from(getApplication());
+			final View dialogview = inflater.inflate(R.layout.dialogview, null);
+			new AlertDialog.Builder(MainActivity.this).setTitle("请输入passcode:")
+			.setView(dialogview)
+			.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					EditText et_passcode = (EditText)dialogview.findViewById(R.id.et_passcode);	
+					Editable editable = et_passcode.getText();
+					if (editable.toString().matches("")) {
+						Toast.makeText(getApplication(), "请输入", Toast.LENGTH_SHORT).show();
+					}else{
+						String passcode = editable.toString();
+						if (passcode.equals(PASSCODE)) {
+							sharedPreferences = getSharedPreferences("PASSCODE", MODE_PRIVATE);
+							editor = sharedPreferences.edit();
+							editor.putBoolean("Forever", true);
+							editor.commit();
+						}
+					}
+				}
+			})
+			.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+				}
+			}).create().show();
 			break;
 		default:
 			break;

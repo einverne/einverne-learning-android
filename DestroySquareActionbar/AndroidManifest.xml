@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="cn.blcu.destroysquare"
-    android:versionCode="5"
-    android:versionName="1.0.9" >
+    android:versionCode="6"
+    android:versionName="1.1.0" >
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -79,12 +79,24 @@
             android:name="net.youmi.android.offers.OffersReceiver"
             android:exported="false" >
         </receiver>
+
+        <service
+            android:name="com.umeng.common.net.DownloadingService"
+            android:exported="true"
+            android:process=":DownloadingService" >
+        </service>
     </application>
 
     <meta-data
         android:name="YOUMI_CHANNEL"
         android:value="这里替换为渠道号" >
     </meta-data>
-<meta-data android:value="518c7ace56240b9728017b37" android:name="UMENG_APPKEY"></meta-data>
-<meta-data android:value="Channel ID" android:name="UMENG_CHANNEL"/>
+    <meta-data
+        android:name="UMENG_APPKEY"
+        android:value="518c7ace56240b9728017b37" >
+    </meta-data>
+    <meta-data
+        android:name="UMENG_CHANNEL"
+        android:value="Channel ID" />
+
 </manifest>
