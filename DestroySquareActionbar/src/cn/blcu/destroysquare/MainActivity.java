@@ -5,7 +5,6 @@ import net.youmi.android.banner.AdSize;
 import net.youmi.android.banner.AdView;
 import net.youmi.android.offers.OffersManager;
 import net.youmi.android.offers.PointsManager;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -27,7 +26,6 @@ import cn.domob.android.ads.DomobAdView;
 import cn.domob.android.ads.DomobAdManager.ErrorCode;
 
 import com.actionbarsherlock.app.SherlockActivity;
-import com.actionbarsherlock.view.ActionProvider;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
@@ -48,7 +46,7 @@ public class MainActivity extends SherlockActivity implements View.OnClickListen
 	public static final String InterstitialPPID = "16TLm5ToApCv4NUH4b_Xhj1z";
 	public static final String PUBLISHER_ID = "56OJzw2IuNXifZqbis";
 	public static final String InlinePPID = "16TLm5ToApCv4NUHYH4Vk63k";
-	protected static final Object PASSCODE = "einverne";
+	protected static final String PASSCODE = "einverne";
 
 	ImageButton help;
 	ImageButton setting;
@@ -88,8 +86,8 @@ public class MainActivity extends SherlockActivity implements View.OnClickListen
 				startActivity(intent);
 //				this.overridePendingTransition(R.anim.rotate_in,
 //						R.anim.rotate_out);// 参数:读取res中的XML文件实现效果
-				this.overridePendingTransition(R.anim.in_from_right,
-						R.anim.out_to_left);// 参数:读取res中的XML文件实现效果
+				this.overridePendingTransition(R.anim.new_dync_in_from_right,
+						R.anim.new_dync_out_to_left);// 参数:读取res中的XML文件实现效果
 				// 摇摆
 			} else {
 				Toast.makeText(MainActivity.this, "消费积分失败(积分余额不足),请去获取积分,跳转到积分墙",
@@ -108,7 +106,7 @@ public class MainActivity extends SherlockActivity implements View.OnClickListen
 			startActivity(intent_2);
 			MainActivity.this.overridePendingTransition(R.anim.new_dync_in_from_right,
 					R.anim.new_dync_out_to_left);
-			;// 参数:读取res中的XML文件实现效果
+			// 参数:读取res中的XML文件实现效果
 			break;
 		case SETTING:
 			myTracker.sendEvent("ui_action", "button_press", "settingActivity",
@@ -293,6 +291,7 @@ public class MainActivity extends SherlockActivity implements View.OnClickListen
 						Toast.LENGTH_SHORT).show();
 				Log.d("EV_DEBUG", "已成功奖励50积分，当前余额为:" + myPointBalance);
 				editor.putString("date", DateTool.getTodayDate());
+				Log.d(TAG, DateTool.getTodayDate());
 				editor.commit();
 			} else {
 				int myPointBalance = PointsManager.getInstance(this)
