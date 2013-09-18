@@ -25,86 +25,90 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:id="@+id/linear_play"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/domobAdcontainer"
-        android:layout_marginBottom="10dp"
-        android:gravity="center_vertical" >
+        android:layout_height="match_parent"
+        android:gravity="center_vertical|center_horizontal"
+        android:orientation="vertical" >
 
-        <ImageButton
-            android:id="@+id/start"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/linear_play"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:background="@color/white"
-            android:src="@drawable/ic_play" />
+            android:layout_marginBottom="10dp"
+            android:gravity="center_vertical" >
 
-        <TextView
-            android:id="@+id/textView1"
-            android:layout_width="wrap_content"
+            <ImageButton
+                android:id="@+id/start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@color/white"
+                android:src="@drawable/ic_play" />
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Start Game"
+                android:textSize="23dp"
+                android:textStyle="bold"
+                android:typeface="sans" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_how"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Start Game"
-            android:textSize="23dp"
-            android:textStyle="bold"
-            android:typeface="sans" />
-    </LinearLayout>
+            android:layout_marginBottom="10dp"
+            android:gravity="center_vertical" >
 
-    <LinearLayout
-        android:id="@+id/linear_how"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/linear_play"
-        android:layout_marginBottom="10dp"
-        android:gravity="center_vertical" >
+            <ImageButton
+                android:id="@+id/help"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@color/white"
+                android:src="@drawable/ic_tutorial" />
 
-        <ImageButton
-            android:id="@+id/help"
-            android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="How to Play"
+                android:textSize="23dp"
+                android:textStyle="bold"
+                android:typeface="normal" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_setting"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:background="@color/white"
-            android:src="@drawable/ic_tutorial" />
+            android:gravity="center_vertical" >
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="How to Play"
-            android:textSize="23dp"
-            android:textStyle="bold"
-            android:typeface="normal" />
-    </LinearLayout>
+            <ImageButton
+                android:id="@+id/setting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@color/white"
+                android:src="@drawable/ic_more" />
 
-    <LinearLayout
-        android:id="@+id/linear_setting"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/linear_how"
-        android:gravity="center_vertical" >
-
-        <ImageButton
-            android:id="@+id/setting"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:background="@color/white"
-            android:src="@drawable/ic_more" />
-
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Game Setting"
-            android:textSize="23dp"
-            android:textStyle="bold"
-            android:typeface="normal" />
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Game Setting"
+                android:textSize="23dp"
+                android:textStyle="bold"
+                android:typeface="normal" />
+        </LinearLayout>
     </LinearLayout>
 
 </RelativeLayout>
