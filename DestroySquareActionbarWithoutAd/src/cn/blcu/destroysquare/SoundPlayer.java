@@ -32,7 +32,7 @@ public class SoundPlayer implements MediaPlayer.OnCompletionListener,
 
 		try {
 			// 利用音频文件创建一个MeidaPlayer
-			
+
 			bgPlayer = MediaPlayer.create(context, paramInt);
 			bgPlayer.setOnCompletionListener(this);
 			// 设置是否循环播放
@@ -53,11 +53,12 @@ public class SoundPlayer implements MediaPlayer.OnCompletionListener,
 		bgPlayer.release();
 		bgPlayer = null;
 	}
-	
-	public void pauseBgSound(){
+
+	public void pauseBgSound() {
 		bgPlayer.pause();
 	}
-	public void startAgainBgSound(){
+
+	public void startAgainBgSound() {
 		bgPlayer.start();
 	}
 }

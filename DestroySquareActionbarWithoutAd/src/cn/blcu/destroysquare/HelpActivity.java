@@ -102,7 +102,8 @@ public class HelpActivity extends SherlockActivity implements OnScrollListener {
 			((ViewPager) arg0).addView(mListViews.get(arg1), 0);
 			if (arg1 == 2) {
 				View view = mListViews.get(arg1);
-				TextView version = (TextView)view.findViewById(R.id.textView_version);
+				TextView version = (TextView) view
+						.findViewById(R.id.textView_version);
 				version.setText(getAppVersionName(HelpActivity.this));
 			}
 			return mListViews.get(arg1);
@@ -145,7 +146,7 @@ public class HelpActivity extends SherlockActivity implements OnScrollListener {
 		}
 		return versionName;
 	}
-	
+
 	private void InitImageView() {
 		cursor = (ImageView) findViewById(R.id.cursor);
 		bmpW = BitmapFactory.decodeResource(getResources(), R.drawable.a1)

@@ -70,27 +70,26 @@ public class SquareView extends View {
 	Timer timer;
 	TimerTask timertask;
 	public SoundPlayer playMusic;
-	
-	
+
 	public SquareView(Context context) {
 		super(context);
-		 /**设置控制焦点 **/
-		 setFocusable(true);
+		/** 设置控制焦点 **/
+		setFocusable(true);
 		iniSquareView(context);
 	}
 
 	public SquareView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		 setFocusable(true);
+		setFocusable(true);
 		iniSquareView(context);
-		
+
 	}
 
 	public SquareView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		setFocusable(true);
 		iniSquareView(context);
-		 
+
 	}
 
 	/**
@@ -140,15 +139,14 @@ public class SquareView extends View {
 									int which) {
 								shareApps();
 							}
-						})
-						.setOnCancelListener(new OnCancelListener() {
-							@Override
-							public void onCancel(DialogInterface dialog) {
-								dialog.cancel();
-								GameActivity ga = (GameActivity) context;
-								ga.finish();
-							}
-						}).setCancelable(true).show();
+						}).setOnCancelListener(new OnCancelListener() {
+					@Override
+					public void onCancel(DialogInterface dialog) {
+						dialog.cancel();
+						GameActivity ga = (GameActivity) context;
+						ga.finish();
+					}
+				}).setCancelable(true).show();
 	}
 
 	private void getBoundrayValue() {
@@ -229,9 +227,9 @@ public class SquareView extends View {
 		this.colors = new ArrayList<Integer>();
 		level = 3;
 		score = 0;
-	
+
 		initSounds();
-		
+
 		sharedPreferences = context.getSharedPreferences("High_Score",
 				Context.MODE_PRIVATE);
 		editor = sharedPreferences.edit();
@@ -303,8 +301,7 @@ public class SquareView extends View {
 			this.colors.add(getResources().getColor(R.color.yellow_hc));
 			this.colors.add(getResources().getColor(R.color.purple_hc));
 			this.colors.add(getResources().getColor(R.color.red_hc));
-		}
-		else{
+		} else {
 			this.colors.add(getResources().getColor(R.color.blue_normal));
 			this.colors.add(getResources().getColor(R.color.green_normal));
 			this.colors.add(getResources().getColor(R.color.yellow_normal));
@@ -317,24 +314,24 @@ public class SquareView extends View {
 		InitColors();
 		InitSquareLength();
 		InitSquares();
-		
+
 	}
-	
+
 	public void initBgSounds() {
 		if (sharedPreferences_s.getBoolean("bgflag", true)) {
 			playMusic = new SoundPlayer(context);
 			playMusic.playBgSound(R.raw.chuyin);
 		}
 
-		
 	}
+
 	public void initSounds() {
 		// 初始化soundPool 对象,第一个参数是允许有多少个声音流同时播放,第2个参数是声音类型,第三个参数是声音的品质
 		soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 100);
-		soundMap.put(1 , soundPool.load(context, R.raw.yinx , 1));
-		soundMap.put(2 , soundPool.load(context, R.raw.end , 1));
+		soundMap.put(1, soundPool.load(context, R.raw.yinx, 1));
+		soundMap.put(2, soundPool.load(context, R.raw.end, 1));
 
-		//sound = soundPool.load(context, R.raw.yinx, 1);
+		// sound = soundPool.load(context, R.raw.yinx, 1);
 
 	}
 
@@ -474,7 +471,7 @@ public class SquareView extends View {
 					y - 10, timePaint);
 		}
 		canvas.drawText("Time:" + Integer.toString(countTime),
-				this.getWidth() / 2+10, y - 15, textPaint);
+				this.getWidth() / 2 + 10, y - 15, textPaint);
 		// /////////画time
 		if (this.Flag_Time == 1) {
 			textPaint.setColor(Color.RED);
@@ -517,13 +514,14 @@ public class SquareView extends View {
 			if (Squares.get(i).isSelected()) {
 				paint.setStyle(Style.FILL);// 画实心矩形用颜色填充
 				paint.setColor(color);
-				canvas.drawRect(left -1, top -1, right +1, bottom +1, paint);
+				canvas.drawRect(left - 1, top - 1, right + 1, bottom + 1, paint);
 				// 画打叉
 				paint.setColor(Color.WHITE);
 				paint.setStrokeWidth(2);
 				canvas.drawLine(right - 3, top + 3, left + 3, bottom - 3, paint);// 画线
 				canvas.drawLine(left + 3, top + 3, right - 3, bottom - 3, paint);// 斜线
-				canvas.drawCircle((right-left)/2, (bottom-top)/2, 2, paint);
+				canvas.drawCircle((right - left) / 2, (bottom - top) / 2, 2,
+						paint);
 			}
 
 		}
@@ -660,7 +658,7 @@ public class SquareView extends View {
 		if (playMusic != null) {
 			playMusic.pauseBgSound();
 		}
-		
+
 		new AlertDialog.Builder(context)
 				.setIcon(R.drawable.ic_launcher)
 				.setTitle("Game Pause")
@@ -676,7 +674,7 @@ public class SquareView extends View {
 								if (playMusic != null) {
 									playMusic.startAgainBgSound();
 								}
-								
+
 							}
 						})
 				.setNegativeButton("Close",
@@ -751,19 +749,17 @@ public class SquareView extends View {
 	/*
 	 * 调用系统的分享菜单 share app
 	 */
-	private void shareApps(){
-		//实例化一个Intent对象，并且设置Intent的Action为ACTION_SEND
-		Intent intent=new Intent(Intent.ACTION_SEND); 
-		//设置MIME数据类型
-		intent.setType("text/plain"); 
-		//设置主题
-		intent.putExtra(Intent.EXTRA_SUBJECT, "分享得分"); 
-		//设置内容
-		intent.putExtra(Intent.EXTRA_TEXT, "我在 #四方消除 中得到"+score+"分"); 
-		//启动Activity，并设置菜单标题
-		context.startActivity(Intent.createChooser(intent, "分享你的得分:")); 
+	private void shareApps() {
+		// 实例化一个Intent对象，并且设置Intent的Action为ACTION_SEND
+		Intent intent = new Intent(Intent.ACTION_SEND);
+		// 设置MIME数据类型
+		intent.setType("text/plain");
+		// 设置主题
+		intent.putExtra(Intent.EXTRA_SUBJECT, "分享得分");
+		// 设置内容
+		intent.putExtra(Intent.EXTRA_TEXT, "我在 #四方消除 中得到" + score + "分");
+		// 启动Activity，并设置菜单标题
+		context.startActivity(Intent.createChooser(intent, "分享你的得分:"));
 	}
 
-	
-	
 }
