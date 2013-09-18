@@ -5,25 +5,5 @@
         android:orderInCategory="100"
         android:showAsAction="never"
         android:title="@string/action_settings"/>
-    <item
-        android:id="@+id/action_eachday"
-        android:orderInCategory="100"
-        android:showAsAction="always|withText"
-        android:title="@string/action_eachday"/>
-    <item
-        android:id="@+id/action_jifen"
-        android:orderInCategory="100"
-        android:showAsAction="never"
-        android:title="@string/action_jifen"/>
-    <item
-        android:id="@+id/update"
-        android:orderInCategory="100"
-        android:showAsAction="never"
-        android:title="@string/update"/>
-    <item
-        android:id="@+id/passcode"
-        android:orderInCategory="100"
-        android:showAsAction="never"
-        android:title="@string/passcode"/>
     
 </menu>
